@@ -8,6 +8,6 @@ namespace FundooManager.Interface
     public interface IUserManager
     {
         string Register(UserModel user);
-        string Login(LoginModel user);
+        string Login(LoginModel loginModel);
     }
 }

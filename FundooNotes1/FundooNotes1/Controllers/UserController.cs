@@ -15,6 +15,7 @@ namespace FundooNotes1.Controllers
         {
             this.manager = manager;
         }
+
         [HttpPost]
         [Route("api/register")]
         public IActionResult Register([FromBody] UserModel user)
@@ -38,17 +39,28 @@ namespace FundooNotes1.Controllers
         }
 
         [HttpPost]
-        [Route("api/register")]
-        public IActionResult Login([FromBody] LoginModel user)
+        [Route("api/login")]
+        public IActionResult Login([FromBody] LoginModel loginModel)
         {
             try
             {
-                string message = this.manager.Login(user);
-                return this.Ok(message);
+                string message = this.manager.Login(loginModel);
+                if (message.Equals("Login Successfull"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = message });
+                }
+                else if (message.Equals("Invalid Password"))
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = message });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = message });
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
     }

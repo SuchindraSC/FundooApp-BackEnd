@@ -15,11 +15,11 @@ namespace FundooManager.Manager
             this.repository = repository;
         }
 
-        public string Login(LoginModel user)
+        public string Register(UserModel user)
         {
             try
             {
-                return this.repository.Login(user);
+                return this.repository.Register(user);
             }
             catch (Exception ex)
             {
@@ -27,11 +27,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string Register(UserModel user)
+        public string Login(LoginModel loginModel)
         {
             try
             {
-                return this.repository.Register(user);
+                return this.repository.Login(loginModel);
             }
             catch (Exception ex)
             {
