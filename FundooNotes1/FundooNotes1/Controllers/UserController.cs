@@ -63,5 +63,49 @@ namespace FundooNotes1.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpPost]
+        [Route("api/forgotpassword")]
+        public IActionResult ForgotPassword([FromBody] ForgotPasswordModel forgotPasswordModel)
+        {
+            try
+            {
+                string message = this.manager.ForgotPassword(forgotPasswordModel);
+                if (message.Equals("Email Sent"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = message });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/resetpassword")]
+        public IActionResult ResetPassword([FromBody] ResetPasswordModel resetPasswordModel)
+        {
+            try
+            {
+                string message = this.manager.ResetPassword(resetPasswordModel);
+                if (message.Equals("Password Reset Successfull"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = message });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
