@@ -18,11 +18,11 @@ namespace FundooNotes1.Controllers
 
         [HttpPost]
         [Route("api/register")]
-        public IActionResult Register([FromBody] UserModel user)
+        public async Task<IActionResult> Register([FromBody] UserModel user)
         {
             try
             {
-                string resultMessage = this.manager.Register(user);
+                string resultMessage = await this.manager.Register(user);
                 if (resultMessage.Equals("Registration Successfull"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
@@ -66,12 +66,12 @@ namespace FundooNotes1.Controllers
 
         [HttpPost]
         [Route("api/forgotpassword")]
-        public IActionResult ForgotPassword([FromBody] ForgotPasswordModel forgotPasswordModel)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordModel forgotPasswordModel)
         {
             try
             {
-                string message = this.manager.ForgotPassword(forgotPasswordModel);
-                if (message.Equals("Email Sent"))
+                string message = await this.manager.ForgotPassword(forgotPasswordModel);
+                if (message.Equals("Email Sent Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = message });
                 }
@@ -88,11 +88,11 @@ namespace FundooNotes1.Controllers
 
         [HttpPut]
         [Route("api/resetpassword")]
-        public IActionResult ResetPassword([FromBody] ResetPasswordModel resetPasswordModel)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordModel resetPasswordModel)
         {
             try
             {
-                string message = this.manager.ResetPassword(resetPasswordModel);
+                string message = await this.manager.ResetPassword(resetPasswordModel);
                 if (message.Equals("Password Reset Successfull"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = message });

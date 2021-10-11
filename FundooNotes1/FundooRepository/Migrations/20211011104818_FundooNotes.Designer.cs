@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FundooRepository.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20211007163525_Fundoo")]
-    partial class Fundoo
+    [Migration("20211011104818_FundooNotes")]
+    partial class FundooNotes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

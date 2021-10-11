@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FundooRepository.Interface
 {
     public interface IUserRepository
     {
-        string Register(UserModel user);
+        Task<string> Register(UserModel user);
         string Login(LoginModel loginModel);
-        public string ForgotPassword(ForgotPasswordModel forgotPasswordModel);
-        string ResetPassword(ResetPasswordModel resetPasswordModel);
+        Task<string> ForgotPassword(ForgotPasswordModel forgotPasswordModel);
+        Task<string> ResetPassword(ResetPasswordModel resetPasswordModel);
     }
 }

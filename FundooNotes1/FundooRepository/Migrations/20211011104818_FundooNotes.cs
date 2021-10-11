@@ -2,7 +2,7 @@
 
 namespace FundooRepository.Migrations
 {
-    public partial class Fundoo : Migration
+    public partial class FundooNotes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
