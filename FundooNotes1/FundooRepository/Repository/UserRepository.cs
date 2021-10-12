@@ -17,8 +17,6 @@ namespace FundooRepository.Repository
     {
         private readonly UserContext userContext;
 
-        private MessageQueue msgqueue;
-
         public UserRepository(UserContext userContext)
         {
             this.userContext = userContext;
@@ -57,7 +55,7 @@ namespace FundooRepository.Repository
                 if (users)
                 {
                     loginModel.Password = Encryptdata(loginModel.Password);
-                    var user = this.userContext.Users.Where(x => x.Emailid == loginModel.Emailid).FirstOrDefault();
+                    var user = this.userContext.Users.Where(x => x.Emailid == loginModel.Emailid).SingleOrDefault();
                     if (user.Password == loginModel.Password)
                     {
                         return "Login Successfull";
@@ -78,29 +76,32 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<string> ForgotPassword(ForgotPasswordModel forgotPasswordModel)
+        public string ForgotPassword(string Emailid)
         {
             try
             {
-                var users = this.userContext.Users.Any(x => x.Emailid == forgotPasswordModel.Emailid);
+                var users = this.userContext.Users.Any(x => x.Emailid == Emailid);
 
                 if (users)
                 {
-                    MailMessage mail = new MailMessage();
-                    SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                    MessageQueue msgqueue;
+                    if (MessageQueue.Exists(@".\Private$\MyQueue"))
+                    {
+                        msgqueue = new MessageQueue(@".\Private$\MyQueue");
+                    }
+                    else
+                    {
+                        msgqueue = MessageQueue.Create(@".\Private$\MyQueue");
+                    }
 
-                    mail.From = new MailAddress("suchindrasc99@gmail.com");
-                    mail.To.Add("suchindrasc99@gmail.com");
-                    mail.Subject = "Fundoo Notes";
-                    mail.Body = $"You requested for forgot password of {forgotPasswordModel.Emailid}. Please Reset The Password";
+                    Message message = new Message();
+                    message.Formatter = new BinaryMessageFormatter();
+                    message.Body = $"You requested for forgot password of {Emailid}. Please Reset The Password";
+                    msgqueue.Label = "Mail";
+                    msgqueue.Send(message);
+                    SendEmail(Emailid);
+                    return "Check Your Email";
 
-                    SmtpServer.Port = 587;
-                    SmtpServer.UseDefaultCredentials = false;
-                    SmtpServer.Credentials = new System.Net.NetworkCredential("suchindrasc99@gmail.com", "Suchindra@0899");
-                    SmtpServer.EnableSsl = true;
-
-                    await SmtpServer.SendMailAsync(mail);
-                    return "Email Sent Successsfully";
                 }
                 else
                 {
@@ -122,7 +123,7 @@ namespace FundooRepository.Repository
 
                 if (users)
                 {
-                    var user = this.userContext.Users.Where(x => x.Emailid == resetPasswordModel.Emailid).FirstOrDefault();
+                    var user = this.userContext.Users.Where(x => x.Emailid == resetPasswordModel.Emailid).SingleOrDefault();
                     user.Password = resetPasswordModel.Password;
                     await this.userContext.SaveChangesAsync();
                     return "Password Reset Successfull";
@@ -147,10 +148,11 @@ namespace FundooRepository.Repository
             return strmsg;
         }
 
-        public void sendMessageQueue(ForgotPasswordModel resetLink)
+        public void SendEmail(string Emailid)
         {
             try
             {
+                MessageQueue msgqueue;
                 if (MessageQueue.Exists(@".\Private$\MyQueue"))
                 {
                     msgqueue = new MessageQueue(@".\Private$\MyQueue");
@@ -159,32 +161,22 @@ namespace FundooRepository.Repository
                 {
                     msgqueue = MessageQueue.Create(@".\Private$\MyQueue");
                 }
-                msgqueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
-                Message message = new Message
-                {
-                    Label = "password reset link",
-                    Body = JsonConvert.SerializeObject(resetLink)
-                };
-                msgqueue.Send(message);
-                msgqueue.ReceiveCompleted += msgqueue_ReceiveCompleted;
-                msgqueue.BeginReceive();
-                msgqueue.Close();
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
 
-        public void msgqueue_ReceiveCompleted(object sender, ReceiveCompletedEventArgs e)
-        {
-            try
-            {
-                MessageQueue msgqueue = (MessageQueue)sender;
-                Message msg = msgqueue.EndReceive(e.AsyncResult);
-                ForgotPasswordModel model = JsonConvert.DeserializeObject<ForgotPasswordModel>(msg.Body.ToString());
-                //ForgotPassword(model);
-                msgqueue.BeginReceive();
+                var receivequeue = new MessageQueue(@".\Private$\MyQueue");
+                var receivemsg = receivequeue.Receive();
+                receivemsg.Formatter = new BinaryMessageFormatter();
+
+                MailMessage mail = new MailMessage();
+                mail.Body = receivemsg.Body.ToString();
+                mail.From = new MailAddress("suchindrasc99@gmail.com");
+                mail.To.Add("suchindrasc99@gmail.com");
+                mail.Subject = "Fundoo Notes";
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                SmtpServer.Port = 587;
+                SmtpServer.UseDefaultCredentials = false;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("suchindrasc99@gmail.com", "Suchindra@0899");
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(mail);
             }
             catch (MessageQueueException ex)
             {

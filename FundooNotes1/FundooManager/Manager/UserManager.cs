@@ -40,11 +40,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public Task<string> ForgotPassword(ForgotPasswordModel forgotPasswordModel)
+        public string ForgotPassword(string Emailid)
         {
             try
             {
-                return this.repository.ForgotPassword(forgotPasswordModel);
+                return this.repository.ForgotPassword(Emailid);
             }
             catch (Exception ex)
             {
