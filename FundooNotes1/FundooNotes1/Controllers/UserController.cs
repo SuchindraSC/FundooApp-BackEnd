@@ -1,5 +1,7 @@
 ﻿using FundooManager.Interface;
 using FundooModel;
+using FundooRepository.Interface;
+using FundooRepository.Context;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,9 +13,15 @@ namespace FundooNotes1.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserManager manager;
-        public UserController(IUserManager manager)
+
+        private readonly IUserRepository repository;
+
+        private readonly UserContext userContext;
+        public UserController(IUserManager manager, IUserRepository repository, UserContext userContext)
         {
             this.manager = manager;
+            this.repository = repository;
+            this.userContext = userContext;
         }
 
         [HttpPost]
@@ -47,7 +55,9 @@ namespace FundooNotes1.Controllers
                 string message = this.manager.Login(loginModel);
                 if (message.Equals("Login Successfull"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = message });
+                    var users = this.userContext.Users.Where(x => x.Emailid == loginModel.Emailid).SingleOrDefault();
+                    string tokenString = this.repository.GenerateToken(loginModel.Emailid);
+                    return this.Ok(new { Status = true, Message = message , Data = users.FirstName, users.LastName, loginModel.Emailid, tokenString});
                 }
                 else if (message.Equals("Invalid Password"))
                 {

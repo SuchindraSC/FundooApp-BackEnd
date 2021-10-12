@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using Experimental.System.Messaging;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FundooRepository.Repository
 {
@@ -17,9 +20,12 @@ namespace FundooRepository.Repository
     {
         private readonly UserContext userContext;
 
-        public UserRepository(UserContext userContext)
+        private readonly IConfiguration configuration;
+
+        public UserRepository(UserContext userContext, IConfiguration configuration)
         {
             this.userContext = userContext;
+            this.configuration = configuration;
         }
 
         public async Task<string> Register(UserModel user)
@@ -114,6 +120,42 @@ namespace FundooRepository.Repository
             }
         }
 
+        public void SendEmail(string Emailid)
+        {
+            try
+            {
+                MessageQueue msgqueue;
+                if (MessageQueue.Exists(@".\Private$\MyQueue"))
+                {
+                    msgqueue = new MessageQueue(@".\Private$\MyQueue");
+                }
+                else
+                {
+                    msgqueue = MessageQueue.Create(@".\Private$\MyQueue");
+                }
+
+                var receivequeue = new MessageQueue(@".\Private$\MyQueue");
+                var receivemsg = receivequeue.Receive();
+                receivemsg.Formatter = new BinaryMessageFormatter();
+
+                MailMessage mail = new MailMessage();
+                mail.Body = receivemsg.Body.ToString();
+                mail.From = new MailAddress("suchindrasc99@gmail.com");
+                mail.To.Add("suchindrasc99@gmail.com");
+                mail.Subject = "Fundoo Notes";
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                SmtpServer.Port = 587;
+                SmtpServer.UseDefaultCredentials = false;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("suchindrasc99@gmail.com", "Suchindra@0899");
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(mail);
+            }
+            catch (MessageQueueException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<string> ResetPassword(ResetPasswordModel resetPasswordModel)
         {
             try
@@ -148,39 +190,30 @@ namespace FundooRepository.Repository
             return strmsg;
         }
 
-        public void SendEmail(string Emailid)
+        
+
+        public string GenerateToken(string Emailid)
         {
             try
             {
-                MessageQueue msgqueue;
-                if (MessageQueue.Exists(@".\Private$\MyQueue"))
+                byte[] key = Convert.FromBase64String(this.configuration["SecretKey"]);
+                SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
+                SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
                 {
-                    msgqueue = new MessageQueue(@".\Private$\MyQueue");
-                }
-                else
-                {
-                    msgqueue = MessageQueue.Create(@".\Private$\MyQueue");
-                }
-
-                var receivequeue = new MessageQueue(@".\Private$\MyQueue");
-                var receivemsg = receivequeue.Receive();
-                receivemsg.Formatter = new BinaryMessageFormatter();
-
-                MailMessage mail = new MailMessage();
-                mail.Body = receivemsg.Body.ToString();
-                mail.From = new MailAddress("suchindrasc99@gmail.com");
-                mail.To.Add("suchindrasc99@gmail.com");
-                mail.Subject = "Fundoo Notes";
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                SmtpServer.Port = 587;
-                SmtpServer.UseDefaultCredentials = false;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("suchindrasc99@gmail.com", "Suchindra@0899");
-                SmtpServer.EnableSsl = true;
-                SmtpServer.Send(mail);
+                    Subject = new ClaimsIdentity(new[] {
+                        new Claim(ClaimTypes.Name, Emailid)
+                    }),
+                    Expires = DateTime.UtcNow.AddMinutes(30),
+                    SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
+                };
+                JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+                JwtSecurityToken token = handler.CreateJwtSecurityToken(descriptor);
+                return handler.WriteToken(token);
             }
-            catch (MessageQueueException ex)
+
+            catch(ArgumentNullException ex)
             {
-                throw new Exception(ex.Message);
+                throw new ArgumentNullException(ex.Message);
             }
         }
     }
