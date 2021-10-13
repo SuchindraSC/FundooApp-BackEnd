@@ -3,7 +3,6 @@ using FundooManager.Manager;
 using FundooRepository.Context;
 using FundooRepository.Interface;
 using FundooRepository.Repository;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,8 +36,14 @@ namespace FundooNotes1
             services.AddDbContextPool<UserContext>(
                 options => options.UseSqlServer(this.Configuration.GetConnectionString("UserDbConnection")));
 
+            services.AddSwaggerGen(c =>
+            {
+               c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Fundoo Notes", Description = "Separate UI for Testing API", Version = "1.0" });
+            });
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserManager, UserManager>();
+            services.AddTransient<INoteManager, NotesManager>();
+            services.AddTransient<INotesRepository, NotesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +74,13 @@ namespace FundooNotes1
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "FundooNotes");
             });
         }
     }

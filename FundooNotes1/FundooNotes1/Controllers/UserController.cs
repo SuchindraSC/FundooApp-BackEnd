@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StackExchange.Redis;
 
 namespace FundooNotes1.Controllers
 {
@@ -55,9 +56,16 @@ namespace FundooNotes1.Controllers
                 string message = this.manager.Login(loginModel);
                 if (message.Equals("Login Successfull"))
                 {
+                    ConnectionMultiplexer connectionmultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionmultiplexer.GetDatabase();
+                    string firstName = database.StringGet("First Name");
+                    string lastName = database.StringGet("Last Name");
+                    int userId = Convert.ToInt32(database.StringGet("userId"));
+
                     var users = this.userContext.Users.Where(x => x.Emailid == loginModel.Emailid).SingleOrDefault();
+                    users.Password = null;
                     string tokenString = this.repository.GenerateToken(loginModel.Emailid);
-                    return this.Ok(new { Status = true, Message = message , Data = users.FirstName, users.LastName, loginModel.Emailid, tokenString});
+                    return this.Ok(new { Status = true, Message = message , Data = users, tokenString});
                 }
                 else if (message.Equals("Invalid Password"))
                 {

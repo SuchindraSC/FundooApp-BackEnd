@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 
 namespace FundooRepository.Repository
 {
@@ -62,6 +63,13 @@ namespace FundooRepository.Repository
                 {
                     loginModel.Password = Encryptdata(loginModel.Password);
                     var user = this.userContext.Users.Where(x => x.Emailid == loginModel.Emailid).SingleOrDefault();
+
+                    ConnectionMultiplexer connectionmultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionmultiplexer.GetDatabase();
+                    database.StringSet(key: "First Name", user.FirstName);
+                    database.StringSet(key: "Last Name", user.LastName);
+                    database.StringSet(key: "userId" , user.UserId.ToString());
+                   
                     if (user.Password == loginModel.Password)
                     {
                         return "Login Successfull";

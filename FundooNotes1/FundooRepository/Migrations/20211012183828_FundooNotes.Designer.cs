@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FundooRepository.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20211012071051_Fundoo Notes")]
+    [Migration("20211012183828_FundooNotes")]
     partial class FundooNotes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,6 +19,47 @@ namespace FundooRepository.Migrations
                 .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("FundooModel.NotesModel", b =>
+                {
+                    b.Property<int>("NotesId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Is_Archieve")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Is_Pin")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Is_Trash")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Reminder")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NotesId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notes");
+                });
 
             modelBuilder.Entity("FundooModel.UserModel", b =>
                 {
@@ -46,6 +87,15 @@ namespace FundooRepository.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("FundooModel.NotesModel", b =>
+                {
+                    b.HasOne("FundooModel.UserModel", "UserModel")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
