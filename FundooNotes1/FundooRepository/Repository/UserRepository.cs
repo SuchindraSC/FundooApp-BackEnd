@@ -68,8 +68,8 @@ namespace FundooRepository.Repository
                     IDatabase database = connectionmultiplexer.GetDatabase();
                     database.StringSet(key: "First Name", user.FirstName);
                     database.StringSet(key: "Last Name", user.LastName);
-                    database.StringSet(key: "userId" , user.UserId.ToString());
-                   
+                    database.StringSet(key: "userId", user.UserId.ToString());
+
                     if (user.Password == loginModel.Password)
                     {
                         return "Login Successfull";

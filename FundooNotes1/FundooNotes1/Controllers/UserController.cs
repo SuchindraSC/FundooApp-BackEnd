@@ -62,10 +62,16 @@ namespace FundooNotes1.Controllers
                     string lastName = database.StringGet("Last Name");
                     int userId = Convert.ToInt32(database.StringGet("userId"));
 
-                    var users = this.userContext.Users.Where(x => x.Emailid == loginModel.Emailid).SingleOrDefault();
-                    users.Password = null;
+                    UserModel data = new UserModel
+                    {
+                        FirstName = firstName,
+                        LastName = lastName,
+                        UserId = userId,
+                        Emailid = loginModel.Emailid
+                    };
+
                     string tokenString = this.repository.GenerateToken(loginModel.Emailid);
-                    return this.Ok(new { Status = true, Message = message , Data = users, tokenString});
+                    return this.Ok(new { Status = true, Message = message , Data = data, tokenString});
                 }
                 else if (message.Equals("Invalid Password"))
                 {
