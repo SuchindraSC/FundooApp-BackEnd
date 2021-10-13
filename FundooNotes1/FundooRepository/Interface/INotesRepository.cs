@@ -9,5 +9,6 @@ namespace FundooRepository.Interface
     public interface INotesRepository
     {
         Task<string> addNotes(NotesModel notes);
+        Task<string> UpdateNotes(NotesModel notes);
     }
 }

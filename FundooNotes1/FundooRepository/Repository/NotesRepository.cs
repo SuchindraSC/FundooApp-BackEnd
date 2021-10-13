@@ -32,6 +32,51 @@ namespace FundooRepository.Repository
             }
         }
 
-        
+        public async Task<string> UpdateNotes(NotesModel notes)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Any(e => e.NotesId == notes.NotesId);
+                if(note)
+                {
+                    var updatedNotes = this.userContext.Notes.Where(x => x.NotesId == notes.NotesId).SingleOrDefault();
+                    updatedNotes.Title = notes.Title;
+                    updatedNotes.Description = notes.Description;
+                    await this.userContext.SaveChangesAsync();
+                    return "Notes Updated Successfully";
+                }
+                else
+                {
+                    return "Invalid Note Id";
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<string> DelteNotes(NotesModel notes)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Any(e => e.NotesId == notes.NotesId);
+                if (note)
+                {
+                    var updatedNotes = this.userContext.Notes.Where(x => x.NotesId == notes.NotesId).SingleOrDefault();
+                    updatedNotes = notes;
+                    await this.userContext.SaveChangesAsync();
+                    return "Notes Updated Successfull";
+                }
+                else
+                {
+                    return "Invalid Note Id";
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
