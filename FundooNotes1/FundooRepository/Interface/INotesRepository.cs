@@ -10,5 +10,7 @@ namespace FundooRepository.Interface
     {
         Task<string> addNotes(NotesModel notes);
         Task<string> UpdateNotes(NotesModel notes);
+
+        Task<string> TrashNotes(int NotesId);
     }
 }

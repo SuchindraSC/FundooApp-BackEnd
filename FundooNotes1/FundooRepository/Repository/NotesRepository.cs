@@ -22,9 +22,16 @@ namespace FundooRepository.Repository
         {
             try
             {
-                this.userContext.Notes.Add(notes);
-                await this.userContext.SaveChangesAsync();
-                return "Note Added Successfully";
+                if (notes.Title == null || notes.Description == null || notes.Reminder == null)
+                {
+                    this.userContext.Notes.Add(notes);
+                    await this.userContext.SaveChangesAsync();
+                    return "Note Added Successfully";
+                }
+                else
+                {
+                    return "Adding Notes Failed";
+                }
             }
             catch (ArgumentException ex)
             {
@@ -56,17 +63,20 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<string> DelteNotes(NotesModel notes)
+
+        public async Task<string> TrashNotes(int NotesId)
         {
             try
             {
-                var note = this.userContext.Notes.Any(e => e.NotesId == notes.NotesId);
+                var note = this.userContext.Notes.Any(e => e.NotesId == NotesId);
                 if (note)
                 {
-                    var updatedNotes = this.userContext.Notes.Where(x => x.NotesId == notes.NotesId).SingleOrDefault();
-                    updatedNotes = notes;
+                    var notes = this.userContext.Notes.Where(e => e.NotesId == NotesId).SingleOrDefault();
+                    notes.Is_Trash = true;
+                    notes.Is_Archieve = false;
+                    notes.Is_Pin = false;
                     await this.userContext.SaveChangesAsync();
-                    return "Notes Updated Successfull";
+                    return "Notes Sent To Trash Successfully";
                 }
                 else
                 {

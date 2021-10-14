@@ -39,5 +39,17 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public Task<string> TrashNotes(int NotesId)
+        {
+            try
+            {
+                return this.repository.TrashNotes(NotesId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
     }
 }
