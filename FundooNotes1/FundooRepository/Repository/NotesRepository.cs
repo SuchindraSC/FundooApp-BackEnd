@@ -118,6 +118,36 @@ namespace FundooRepository.Repository
             }
         }
 
+        public async Task<string> UnTrashNotes(int NotesId)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Any(e => e.NotesId == NotesId);
+                if (note)
+                {
+                    var notes = this.userContext.Notes.Where(e => e.NotesId == NotesId).SingleOrDefault();
+                    if (notes.Is_Trash == true)
+                    {
+                        notes.Is_Trash = false;
+                        await this.userContext.SaveChangesAsync();
+                        return "Notes Removed From Trash Successfully";
+                    }
+                    else
+                    {
+                        return "Note Not Present in Trash";
+                    }
+                }
+                else
+                {
+                    return "Invalid Note Id";
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<string> DeleteNotes(int NotesId)
         {
             try
@@ -187,6 +217,57 @@ namespace FundooRepository.Repository
                     }
                     await this.userContext.SaveChangesAsync();
                     return "Notes UnArchieved Successfully";
+                }
+                else
+                {
+                    return "Invalid Note Id";
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<string> PinNotes(int NotesId)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Any(e => e.NotesId == NotesId);
+                if (note)
+                {
+                    var notes = this.userContext.Notes.Where(e => e.NotesId == NotesId).SingleOrDefault();
+                    notes.Is_Trash = false;
+                    notes.Is_Archieve = false;
+                    notes.Is_Pin = true;
+                    await this.userContext.SaveChangesAsync();
+                    return "Notes Pinned Successfully";
+                }
+                else
+                {
+                    return "Invalid Note Id";
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<string> UnPinNotes(int NotesId)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Any(e => e.NotesId == NotesId);
+                if (note)
+                {
+                    var checkPin = this.userContext.Notes.Where(x => x.NotesId == NotesId).SingleOrDefault();
+                    if (checkPin.Is_Pin == true)
+                    {
+                        checkPin.Is_Pin = false;
+                    }
+                    await this.userContext.SaveChangesAsync();
+                    return "Notes UnPinned Successfully";
                 }
                 else
                 {

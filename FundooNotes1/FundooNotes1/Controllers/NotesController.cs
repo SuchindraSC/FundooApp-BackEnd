@@ -124,6 +124,28 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("api/untrashnotes")]
+        public async Task<IActionResult> UnTrashNotes(int NotesId)
+        {
+            try
+            {
+                string resultMessage = await this.manager.UnTrashNotes(NotesId);
+                if (resultMessage.Equals("Notes Removed From Trash Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
         [HttpDelete]
         [Route("api/deletenotes")]
         public async Task<IActionResult> DeleteNotes(int NotesId)
@@ -176,6 +198,50 @@ namespace FundooNotes1.Controllers
             {
                 string resultMessage = await this.manager.UnArchieveNotes(NotesId);
                 if (resultMessage.Equals("Notes UnArchieved Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/pinnotes")]
+        public async Task<IActionResult> PinNotes(int NotesId)
+        {
+            try
+            {
+                string resultMessage = await this.manager.PinNotes(NotesId);
+                if (resultMessage.Equals("Notes Pinned Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/unpinnotes")]
+        public async Task<IActionResult> UnPinNotes(int NotesId)
+        {
+            try
+            {
+                string resultMessage = await this.manager.UnPinNotes(NotesId);
+                if (resultMessage.Equals("Notes UnPinned Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
                 }

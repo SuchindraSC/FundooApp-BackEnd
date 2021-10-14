@@ -64,6 +64,18 @@ namespace FundooManager.Manager
             }
         }
 
+        public Task<string> UnTrashNotes(int NotesId)
+        {
+            try
+            {
+                return this.repository.UnTrashNotes(NotesId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
+
         public Task<string> DeleteNotes(int NotesId)
         {
             try
@@ -93,6 +105,30 @@ namespace FundooManager.Manager
             try
             {
                 return this.repository.UnArchieveNotes(NotesId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
+
+        public Task<string> PinNotes(int NotesId)
+        {
+            try
+            {
+                return this.repository.PinNotes(NotesId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
+
+        public Task<string> UnPinNotes(int NotesId)
+        {
+            try
+            {
+                return this.repository.UnPinNotes(NotesId);
             }
             catch (Exception ex)
             {
