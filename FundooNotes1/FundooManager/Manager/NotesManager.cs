@@ -75,5 +75,29 @@ namespace FundooManager.Manager
                 throw new NotImplementedException(ex.Message);
             }
         }
+
+        public Task<string> ArchieveNotes(int NotesId)
+        {
+            try
+            {
+                return this.repository.ArchieveNotes(NotesId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
+
+        public Task<string> UnArchieveNotes(int NotesId)
+        {
+            try
+            {
+                return this.repository.UnArchieveNotes(NotesId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
     }
 }

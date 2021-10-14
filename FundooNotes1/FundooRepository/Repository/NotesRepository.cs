@@ -147,5 +147,56 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<string> ArchieveNotes(int NotesId)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Any(e => e.NotesId == NotesId);
+                if (note)
+                {
+                    var notes = this.userContext.Notes.Where(e => e.NotesId == NotesId).SingleOrDefault();
+                    notes.Is_Trash = false;
+                    notes.Is_Archieve = true;
+                    notes.Is_Pin = false;
+                    await this.userContext.SaveChangesAsync();
+                    return "Notes Archieved Successfully";
+                }
+                else
+                {
+                    return "Invalid Note Id";
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<string> UnArchieveNotes(int NotesId)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Any(e => e.NotesId == NotesId);
+                if (note)
+                {
+                    var checkArchieve = this.userContext.Notes.Where(x => x.NotesId == NotesId).SingleOrDefault();
+                    if (checkArchieve.Is_Archieve == true)
+                    {
+                        checkArchieve.Is_Archieve = false;
+                    }
+                    await this.userContext.SaveChangesAsync();
+                    return "Notes UnArchieved Successfully";
+                }
+                else
+                {
+                    return "Invalid Note Id";
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

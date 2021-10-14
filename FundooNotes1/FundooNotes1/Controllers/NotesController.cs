@@ -125,13 +125,57 @@ namespace FundooNotes1.Controllers
         }
 
         [HttpDelete]
-        [Route("api/trashnotes")]
+        [Route("api/deletenotes")]
         public async Task<IActionResult> DeleteNotes(int NotesId)
         {
             try
             {
                 string resultMessage = await this.manager.DeleteNotes(NotesId);
                 if (resultMessage.Equals("Note Deleted Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/archievenotes")]
+        public async Task<IActionResult> ArchieveNotes(int NotesId)
+        {
+            try
+            {
+                string resultMessage = await this.manager.ArchieveNotes(NotesId);
+                if (resultMessage.Equals("Notes Archieved Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/unarchievenotes")]
+        public async Task<IActionResult> UnArchieveNotes(int NotesId)
+        {
+            try
+            {
+                string resultMessage = await this.manager.UnArchieveNotes(NotesId);
+                if (resultMessage.Equals("Notes UnArchieved Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
                 }
