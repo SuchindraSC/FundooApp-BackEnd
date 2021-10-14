@@ -9,7 +9,9 @@ namespace FundooManager.Interface
     public interface INoteManager
     {
         Task<string> addNotes(NotesModel notesModel);
+        string getNotes(int NotesId);
         Task<string> UpdateNotes(NotesModel notes);
         Task<string> TrashNotes(int NotesId);
+        Task<string> DeleteNotes(int NotesId);
     }
 }

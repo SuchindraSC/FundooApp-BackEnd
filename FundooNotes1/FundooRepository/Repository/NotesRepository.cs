@@ -1,6 +1,7 @@
 ﻿using FundooModel;
 using FundooRepository.Context;
 using FundooRepository.Interface;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace FundooRepository.Repository
         {
             try
             {
-                if (notes.Title == null || notes.Description == null || notes.Reminder == null)
+                if (notes.Title != null || notes.Description != null)
                 {
                     this.userContext.Notes.Add(notes);
                     await this.userContext.SaveChangesAsync();
@@ -30,8 +31,37 @@ namespace FundooRepository.Repository
                 }
                 else
                 {
-                    return "Adding Notes Failed";
+                    return "Adding Note Failed";
                 }
+                
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public string getNotes(int NotesId)
+        {
+            try
+            {
+                var checkNote = this.userContext.Notes.Any(x => x.NotesId == NotesId);
+                if (checkNote)
+                {
+                    var note = this.userContext.Notes.Where(x => x.NotesId == NotesId).SingleOrDefault();
+                    ConnectionMultiplexer connectionmultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionmultiplexer.GetDatabase();
+                    database.StringSet(key: "Title", note.Title);
+                    database.StringSet(key: "Description", note.Description);
+                    database.StringSet(key: "notesId", note.NotesId.ToString());
+                    return "Details of Note Are Given in Data";
+                }
+                else
+                {
+                    return "Invalid NotesId";
+                }
+
             }
             catch (ArgumentException ex)
             {
@@ -63,7 +93,6 @@ namespace FundooRepository.Repository
             }
         }
 
-
         public async Task<string> TrashNotes(int NotesId)
         {
             try
@@ -77,6 +106,36 @@ namespace FundooRepository.Repository
                     notes.Is_Pin = false;
                     await this.userContext.SaveChangesAsync();
                     return "Notes Sent To Trash Successfully";
+                }
+                else
+                {
+                    return "Invalid Note Id";
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<string> DeleteNotes(int NotesId)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Any(e => e.NotesId == NotesId);
+                if (note)
+                {
+                    var checkNote = this.userContext.Notes.Where(x => x.NotesId == NotesId).SingleOrDefault();
+                    if (checkNote.Is_Trash == true)
+                    {
+                        this.userContext.Notes.Remove(checkNote);
+                        await this.userContext.SaveChangesAsync();
+                        return "Note Deleted Successfully";
+                    }
+                    else
+                    {
+                        return "Note is not present in Trash";
+                    }
                 }
                 else
                 {

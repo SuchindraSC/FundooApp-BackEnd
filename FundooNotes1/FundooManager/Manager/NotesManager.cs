@@ -28,6 +28,18 @@ namespace FundooManager.Manager
             }
         }
 
+        public string getNotes(int NotesId)
+        {
+            try
+            {
+                return this.repository.getNotes(NotesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public Task<string> UpdateNotes(NotesModel note)
         {
             try
@@ -45,6 +57,18 @@ namespace FundooManager.Manager
             try
             {
                 return this.repository.TrashNotes(NotesId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
+
+        public Task<string> DeleteNotes(int NotesId)
+        {
+            try
+            {
+                return this.repository.DeleteNotes(NotesId);
             }
             catch (Exception ex)
             {
