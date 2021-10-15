@@ -14,15 +14,10 @@ namespace FundooNotes1.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserManager manager;
-
-        private readonly IUserRepository repository;
-
-        private readonly UserContext userContext;
-        public UserController(IUserManager manager, IUserRepository repository, UserContext userContext)
+        
+        public UserController(IUserManager manager)
         {
             this.manager = manager;
-            this.repository = repository;
-            this.userContext = userContext;
         }
 
         [HttpPost]
@@ -70,7 +65,7 @@ namespace FundooNotes1.Controllers
                         Emailid = loginModel.Emailid
                     };
 
-                    string tokenString = this.repository.GenerateToken(loginModel.Emailid);
+                    string tokenString = this.manager.GenerateToken(loginModel.Emailid);
                     return this.Ok(new { Status = true, Message = message , Data = data, tokenString});
                 }
                 else if (message.Equals("Invalid Password"))

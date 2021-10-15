@@ -63,5 +63,17 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public string GenerateToken(string Emailid)
+        {
+            try
+            {
+                return this.repository.GenerateToken(Emailid);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

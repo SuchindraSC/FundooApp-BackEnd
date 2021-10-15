@@ -117,21 +117,15 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var checkNote = this.userContext.Notes.Any(x => x.UserId == UserId);
-                if (checkNote)
+                var checkTrash = this.userContext.Notes.Where(y => y.UserId == UserId && y.Is_Trash == true && y.Is_Archieve == false).ToList();
+                if (checkTrash != null)
                 {
-                    var checkTrash = this.userContext.Notes.Where(y => y.UserId == UserId).SingleOrDefault();
-                    if (checkTrash.Is_Trash == true)
-                    {
-                        var allTrashNotes = this.userContext.Notes.Where(e => e.UserId == UserId && e.Is_Trash == true && e.Is_Archieve == false).ToList();
-                        return allTrashNotes;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return checkTrash;
                 }
-                return null;
+                else
+                {
+                    return null;
+                }  
             }
             catch (ArgumentException ex)
             {
@@ -228,21 +222,15 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var checkNote = this.userContext.Notes.Any(x => x.UserId == UserId);
-                if (checkNote)
+                var checkArchieve = this.userContext.Notes.Where(y => y.UserId == UserId && y.Is_Trash == false && y.Is_Archieve == true).ToList();
+                if (checkArchieve != null)
                 {
-                    var checkTrash = this.userContext.Notes.Where(y => y.UserId == UserId).SingleOrDefault();
-                    if (checkTrash.Is_Archieve == true)
-                    {
-                        var allTrashNotes = this.userContext.Notes.Where(e => e.UserId == UserId && e.Is_Trash == false && e.Is_Archieve == true).ToList();
-                        return allTrashNotes;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return checkArchieve;
                 }
-                return null;
+                else
+                {
+                    return null;
+                }
             }
             catch (ArgumentException ex)
             {
@@ -322,6 +310,91 @@ namespace FundooRepository.Repository
                     else
                     {
                         return "Notes not Pinned";
+                    }
+                }
+                else
+                {
+                    return "Invalid Note Id";
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<string> AddRemainder(int NotesId, string time)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Any(e => e.NotesId == NotesId);
+                if (note)
+                {
+                    var addremainder = this.userContext.Notes.Where(x => x.NotesId == NotesId).SingleOrDefault();
+                    addremainder.Reminder = time;
+                    await this.userContext.SaveChangesAsync();
+                    return "Remainder Added Successfully";
+                }
+                else
+                {
+                    return "Invalid Note Id";
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<string> RemoveRemainder(int NoteId)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Any(e => e.NotesId == NoteId);
+                if (note)
+                {
+                    var checkremainder = this.userContext.Notes.Any(x => x.NotesId == NoteId && x.Reminder != null);
+                    if (checkremainder)
+                    {
+                        var removeremainder = this.userContext.Notes.Where(x => x.NotesId == NoteId).SingleOrDefault();
+                        removeremainder.Reminder = null;
+                        await this.userContext.SaveChangesAsync();
+                        return "Reminder Removed Successfully";
+                    }
+                    else
+                    {
+                        return $"Remainder For NoteId {NoteId} Not Available";
+                    }
+                }
+                else
+                {
+                    return "Invalid Note Id";
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<string> UpdateColorToNote(int NoteId, string color)
+        {
+            try
+            {
+                var note = this.userContext.Notes.Any(e => e.NotesId == NoteId);
+                if (note)
+                {
+                    var addcolor = this.userContext.Notes.Where(x => x.NotesId == NoteId).SingleOrDefault();
+                    if (addcolor != null)
+                    {
+                        addcolor.Color = color;
+                        await this.userContext.SaveChangesAsync();
+                        return "Color Added Successfully";
+                    }
+                    else
+                    {
+                        addcolor.Color = "White";
+                        return "Default Color";
                     }
                 }
                 else

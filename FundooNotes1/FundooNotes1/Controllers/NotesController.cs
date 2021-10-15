@@ -55,7 +55,7 @@ namespace FundooNotes1.Controllers
                 List<NotesModel> data = this.manager.getNotes(UserId);
                 if (data != null)
                 { 
-                    return this.Ok(new { Status = true, Message = $"Notes for {UserId} are", Data = data });
+                    return this.Ok(new { Status = true, Message = $"Notes for UserId {UserId} are", Data = data });
                 }
                 else
                 {
@@ -122,11 +122,7 @@ namespace FundooNotes1.Controllers
                 if (data != null)
                 {
                     return this.Ok(new { Status = true, Message = $"Notes for User Id {UserId} in Trash are", Data = data });
-                }
-                else if(data == null)
-                {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = $"Notes for User Id {UserId} is not in Trash" });
-                }
+                }   
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Get Trash Notes Failed" });
@@ -215,10 +211,6 @@ namespace FundooNotes1.Controllers
                 {
                     return this.Ok(new { Status = true, Message = $"Notes for User Id {UserId} Archieved are", Data = data });
                 }
-                else if (data == null)
-                {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = $"Notes for User Id {UserId} is not Archieved" });
-                }
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Get Archieved Notes Failed" });
@@ -284,6 +276,80 @@ namespace FundooNotes1.Controllers
                 if (resultMessage.Equals("Notes UnPinned Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/setreminder")]
+        public async Task<IActionResult> AddReminder(int NotesId, string time)
+        {
+            try
+            {
+                string resultMessage = await this.manager.AddRemainder(NotesId, time);
+                if (resultMessage.Equals("Remainder Added Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/removereminder")]
+        public async Task<IActionResult> RemoveReminder(int NotesId)
+        {
+            try
+            {
+                string resultMessage = await this.manager.RemoveRemainder(NotesId);
+                if (resultMessage.Equals("Reminder Removed Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
+                }
+                else if(resultMessage.Equals($"Remainder For NoteId {NotesId} Not Available"))
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/addcolor")]
+        public async Task<IActionResult> UpdateColorToNote(int NoteId, string color)
+        {
+            try
+            {
+                string resultMessage = await this.manager.UpdateColorToNote(NoteId, color);
+                if (resultMessage.Equals("Color Added Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
+                }
+                else if(resultMessage.Equals("Default Color"))
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
                 }
                 else
                 {

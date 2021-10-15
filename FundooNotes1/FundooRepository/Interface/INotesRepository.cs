@@ -20,5 +20,8 @@ namespace FundooRepository.Interface
         Task<string> UnArchieveNotes(int NotesId);
         Task<string> PinNotes(int NotesId);
         Task<string> UnPinNotes(int NotesId);
+        Task<string> AddRemainder(int NotesId, string time);
+        Task<string> RemoveRemainder(int NoteId);
+        Task<string> UpdateColorToNote(int NotesId, string color);
     }
 }

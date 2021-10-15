@@ -112,6 +112,18 @@ namespace FundooManager.Manager
             }
         }
 
+        public List<NotesModel> GetArchievedNotes(int UserId)
+        {
+            try
+            {
+                return this.repository.GetArchievedNotes(UserId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public Task<string> UnArchieveNotes(int NotesId)
         {
             try
@@ -121,18 +133,6 @@ namespace FundooManager.Manager
             catch (Exception ex)
             {
                 throw new NotImplementedException(ex.Message);
-            }
-        }
-
-        public List<NotesModel> GetArchievedNotes(int UserId)
-        {
-            try
-            {
-                return this.repository.getNotes(UserId);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
             }
         }
 
@@ -153,6 +153,42 @@ namespace FundooManager.Manager
             try
             {
                 return this.repository.UnPinNotes(NotesId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
+
+        public Task<string> AddRemainder(int NotesId, string time)
+        {
+            try
+            {
+                return this.repository.AddRemainder(NotesId, time);
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
+
+        public Task<string> RemoveRemainder(int NoteId)
+        {
+            try
+            {
+                return this.repository.RemoveRemainder(NoteId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
+
+        public Task<string> UpdateColorToNote(int NoteId, string color)
+        {
+            try
+            {
+                return this.repository.UpdateColorToNote(NoteId, color);
             }
             catch (Exception ex)
             {
