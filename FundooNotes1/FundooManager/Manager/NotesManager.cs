@@ -28,11 +28,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string getNotes(int NotesId)
+        public List<NotesModel> getNotes(int UserId)
         {
             try
             {
-                return this.repository.getNotes(NotesId);
+                return this.repository.getNotes(UserId);
             }
             catch (Exception ex)
             {
@@ -61,6 +61,18 @@ namespace FundooManager.Manager
             catch (Exception ex)
             {
                 throw new NotImplementedException(ex.Message);
+            }
+        }
+
+        public List<NotesModel> getTrashNotes(int UserId)
+        {
+            try
+            {
+                return this.repository.getTrashNotes(UserId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 
@@ -109,6 +121,18 @@ namespace FundooManager.Manager
             catch (Exception ex)
             {
                 throw new NotImplementedException(ex.Message);
+            }
+        }
+
+        public List<NotesModel> GetArchievedNotes(int UserId)
+        {
+            try
+            {
+                return this.repository.getNotes(UserId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 

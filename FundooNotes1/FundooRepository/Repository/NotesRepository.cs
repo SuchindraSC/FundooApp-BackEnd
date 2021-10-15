@@ -42,24 +42,19 @@ namespace FundooRepository.Repository
         }
 
 
-        public string getNotes(int NotesId)
+        public List<NotesModel> getNotes(int UserId)
         {
             try
             {
-                var checkNote = this.userContext.Notes.Any(x => x.NotesId == NotesId);
+                var checkNote = this.userContext.Notes.Any(x => x.UserId == UserId);
                 if (checkNote)
                 {
-                    var note = this.userContext.Notes.Where(x => x.NotesId == NotesId).SingleOrDefault();
-                    ConnectionMultiplexer connectionmultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
-                    IDatabase database = connectionmultiplexer.GetDatabase();
-                    database.StringSet(key: "Title", note.Title);
-                    database.StringSet(key: "Description", note.Description);
-                    database.StringSet(key: "notesId", note.NotesId.ToString());
-                    return "Details of Note Are Given in Data";
+                    var note = this.userContext.Notes.Where(x => x.UserId == UserId && x.Is_Trash == false && x.Is_Archieve == false).ToList();
+                    return note;
                 }
                 else
                 {
-                    return "Invalid NotesId";
+                    return null;
                 }
 
             }
@@ -111,6 +106,32 @@ namespace FundooRepository.Repository
                 {
                     return "Invalid Note Id";
                 }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<NotesModel> getTrashNotes(int UserId)
+        {
+            try
+            {
+                var checkNote = this.userContext.Notes.Any(x => x.UserId == UserId);
+                if (checkNote)
+                {
+                    var checkTrash = this.userContext.Notes.Where(y => y.UserId == UserId).SingleOrDefault();
+                    if (checkTrash.Is_Trash == true)
+                    {
+                        var allTrashNotes = this.userContext.Notes.Where(e => e.UserId == UserId && e.Is_Trash == true && e.Is_Archieve == false).ToList();
+                        return allTrashNotes;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                return null;
             }
             catch (ArgumentException ex)
             {
@@ -203,6 +224,32 @@ namespace FundooRepository.Repository
             }
         }
 
+        public List<NotesModel> GetArchievedNotes(int UserId)
+        {
+            try
+            {
+                var checkNote = this.userContext.Notes.Any(x => x.UserId == UserId);
+                if (checkNote)
+                {
+                    var checkTrash = this.userContext.Notes.Where(y => y.UserId == UserId).SingleOrDefault();
+                    if (checkTrash.Is_Archieve == true)
+                    {
+                        var allTrashNotes = this.userContext.Notes.Where(e => e.UserId == UserId && e.Is_Trash == false && e.Is_Archieve == true).ToList();
+                        return allTrashNotes;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                return null;
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<string> UnArchieveNotes(int NotesId)
         {
             try
@@ -214,9 +261,13 @@ namespace FundooRepository.Repository
                     if (checkArchieve.Is_Archieve == true)
                     {
                         checkArchieve.Is_Archieve = false;
+                        await this.userContext.SaveChangesAsync();
+                        return "Notes UnArchieved Successfully";
                     }
-                    await this.userContext.SaveChangesAsync();
-                    return "Notes UnArchieved Successfully";
+                    else
+                    {
+                        return "Notes Not In Archieve";
+                    }
                 }
                 else
                 {
@@ -265,9 +316,13 @@ namespace FundooRepository.Repository
                     if (checkPin.Is_Pin == true)
                     {
                         checkPin.Is_Pin = false;
+                        await this.userContext.SaveChangesAsync();
+                        return "Notes UnPinned Successfully";
                     }
-                    await this.userContext.SaveChangesAsync();
-                    return "Notes UnPinned Successfully";
+                    else
+                    {
+                        return "Notes not Pinned";
+                    }
                 }
                 else
                 {

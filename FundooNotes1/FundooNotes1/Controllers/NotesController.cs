@@ -48,30 +48,18 @@ namespace FundooNotes1.Controllers
 
         [HttpGet]
         [Route("api/getnotes")]
-        public IActionResult getNotes(int NotesId)
+        public IActionResult getNotes(int UserId)
         {
             try
             {
-                string resultMessage = this.manager.getNotes(NotesId);
-                if (resultMessage.Equals("Details of Note Are Given in Data"))
-                {
-                    ConnectionMultiplexer connectionmultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
-                    IDatabase database = connectionmultiplexer.GetDatabase();
-                    string title = database.StringGet("Title");
-                    string description = database.StringGet("Description");
-                    int notesId = Convert.ToInt32(database.StringGet("notesId"));
-
-                    NotesModel data = new NotesModel
-                    {
-                        Title = title,
-                        Description = description,
-                        NotesId = notesId,
-                    };
-                    return this.Ok(new { Status = true, Message = resultMessage, Data = data});
+                List<NotesModel> data = this.manager.getNotes(UserId);
+                if (data != null)
+                { 
+                    return this.Ok(new { Status = true, Message = $"Notes for {UserId} are", Data = data });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Get Notes Failed" });
                 }
             }
             catch (Exception ex)
@@ -82,7 +70,7 @@ namespace FundooNotes1.Controllers
 
         [HttpPut]
         [Route("api/updatenotes")]
-        public async Task<IActionResult> UpdateNotes([FromBody]NotesModel notes)
+        public async Task<IActionResult> UpdateNotes([FromBody] NotesModel notes)
         {
             try
             {
@@ -116,6 +104,32 @@ namespace FundooNotes1.Controllers
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("api/gettrashnotes")]
+        public IActionResult getTrashNotes(int UserId)
+        {
+            try
+            {
+                List<NotesModel> data = this.manager.getTrashNotes(UserId);
+                if (data != null)
+                {
+                    return this.Ok(new { Status = true, Message = $"Notes for User Id {UserId} in Trash are", Data = data });
+                }
+                else if(data == null)
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = $"Notes for User Id {UserId} is not in Trash" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Get Trash Notes Failed" });
                 }
             }
             catch (Exception ex)
@@ -182,6 +196,32 @@ namespace FundooNotes1.Controllers
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("api/getarchievenotes")]
+        public IActionResult GetArchieveNotes(int UserId)
+        {
+            try
+            {
+                List<NotesModel> data = this.manager.GetArchievedNotes(UserId);
+                if (data != null)
+                {
+                    return this.Ok(new { Status = true, Message = $"Notes for User Id {UserId} Archieved are", Data = data });
+                }
+                else if (data == null)
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = $"Notes for User Id {UserId} is not Archieved" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Get Archieved Notes Failed" });
                 }
             }
             catch (Exception ex)
