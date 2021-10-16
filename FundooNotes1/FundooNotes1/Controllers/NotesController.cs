@@ -2,6 +2,7 @@
 using FundooModel;
 using FundooRepository.Interface;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StackExchange.Redis;
 using System;
@@ -321,10 +322,6 @@ namespace FundooNotes1.Controllers
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
                 }
-                else if(resultMessage.Equals($"Remainder For NoteId {NotesId} Not Available"))
-                {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
-                }
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
@@ -347,9 +344,49 @@ namespace FundooNotes1.Controllers
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
                 }
-                else if(resultMessage.Equals("Default Color"))
+                else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/addimage")]
+        public async Task<IActionResult> AddImage(int NoteId, IFormFile image)
+        {
+            try
+            {
+                string resultMessage = await this.manager.AddImage(NoteId, image);
+                if (resultMessage.Equals("Image Added Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/removeimage")]
+        public async Task<IActionResult> RemoveImage(int NoteId)
+        {
+            try
+            {
+                string resultMessage = await this.manager.RemoveImage(NoteId);
+                if (resultMessage.Equals("Image Removed Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
                 }
                 else
                 {

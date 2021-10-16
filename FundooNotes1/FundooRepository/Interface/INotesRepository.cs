@@ -1,4 +1,5 @@
 ﻿using FundooModel;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,5 +24,7 @@ namespace FundooRepository.Interface
         Task<string> AddRemainder(int NotesId, string time);
         Task<string> RemoveRemainder(int NoteId);
         Task<string> UpdateColorToNote(int NotesId, string color);
+        Task<string> AddImage(int NoteId, IFormFile image);
+        Task<string> RemoveImage(int NoteId);
     }
 }
