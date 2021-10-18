@@ -173,6 +173,18 @@ namespace FundooManager.Manager
             }
         }
 
+        public List<NotesModel> GetReminderNotes(int UserId)
+        {
+            try
+            {
+                return this.repository.GetReminderNotes(UserId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
+
         public Task<string> RemoveRemainder(int NoteId)
         {
             try

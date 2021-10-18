@@ -18,6 +18,29 @@ namespace FundooRepository.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("FundooModel.CollaboratorModel", b =>
+                {
+                    b.Property<int>("CollaboratorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("NotesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReceiverEmailid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderEmailid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CollaboratorId");
+
+                    b.HasIndex("NotesId");
+
+                    b.ToTable("Collaborators");
+                });
+
             modelBuilder.Entity("FundooModel.NotesModel", b =>
                 {
                     b.Property<int>("NotesId")
@@ -85,6 +108,15 @@ namespace FundooRepository.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("FundooModel.CollaboratorModel", b =>
+                {
+                    b.HasOne("FundooModel.NotesModel", "NotesModel")
+                        .WithMany()
+                        .HasForeignKey("NotesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FundooModel.NotesModel", b =>

@@ -317,6 +317,23 @@ namespace FundooRepository.Repository
             }
         }
 
+        public List<NotesModel> GetReminderNotes(int UserId)
+        {
+            try
+            {
+                var reminderExists = this.userContext.Notes.Where(x => x.UserId == UserId && x.Is_Trash == false && x.Reminder != null).ToList();
+                if(reminderExists != null)
+                {
+                    return reminderExists;
+                }
+                return null;
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<string> RemoveRemainder(int NoteId)
         {
             try

@@ -22,9 +22,11 @@ namespace FundooRepository.Interface
         Task<string> PinNotes(int NotesId);
         Task<string> UnPinNotes(int NotesId);
         Task<string> AddRemainder(int NotesId, string time);
+        List<NotesModel> GetReminderNotes(int UserId);
         Task<string> RemoveRemainder(int NoteId);
         Task<string> UpdateColorToNote(int NotesId, string color);
         Task<string> AddImage(int NoteId, IFormFile image);
         Task<string> RemoveImage(int NoteId);
+       
     }
 }

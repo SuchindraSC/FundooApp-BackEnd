@@ -311,6 +311,28 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/getremindernotes")]
+        public IActionResult getReminderNotes(int UserId)
+        {
+            try
+            {
+                List<NotesModel> data = this.manager.GetReminderNotes(UserId);
+                if (data != null)
+                {
+                    return this.Ok(new { Status = true, Message = $"Notes for UserId {UserId} are", Data = data });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Get Reminder Notes Failed" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
         [HttpPut]
         [Route("api/removereminder")]
         public async Task<IActionResult> RemoveReminder(int NotesId)
