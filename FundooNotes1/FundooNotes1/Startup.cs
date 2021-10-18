@@ -90,6 +90,8 @@ namespace FundooNotes1
             services.AddTransient<INotesRepository, NotesRepository>();
             services.AddTransient<ICollaboratorManager, CollaboratorManager>();
             services.AddTransient<ICollaboratorRepository, CollaboratorRepository>();
+            services.AddTransient<ILabelManager, LabelManager>();
+            services.AddTransient<ILabelRepository, LabelRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

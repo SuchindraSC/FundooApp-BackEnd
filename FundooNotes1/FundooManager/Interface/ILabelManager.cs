@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FundooRepository.Interface
+namespace FundooManager.Interface
 {
-    public interface ILabelRepository
+    public interface ILabelManager
     {
         public Task<string> addLabels(LabelModel labelModel);
         public Task<string> deleteLabels(int UserId, string labelName);
