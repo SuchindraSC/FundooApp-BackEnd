@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace FundooManager.Manager
 {
+
     public class LabelManager : ILabelManager
     {
         private readonly ILabelRepository repository;
@@ -63,5 +64,52 @@ namespace FundooManager.Manager
             }
         }
 
+        public Task<string> addLabelToNotes(LabelModel labelModel)
+        {
+            try
+            {
+                return this.repository.addLabelToNotes(labelModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public Task<string> removeLabel(int labelId, int notesId)
+        {
+            try
+            {
+                return this.repository.removeLabel(labelId, notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<LabelModel> getLabelsByNote(int notesId)
+        {
+            try
+            {
+                return this.repository.getLabelsByNote(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<NotesModel> getNotesbyLabel(int userId, string labelName)
+        {
+            try
+            {
+                return this.repository.getNotesbyLabel(userId, labelName);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
