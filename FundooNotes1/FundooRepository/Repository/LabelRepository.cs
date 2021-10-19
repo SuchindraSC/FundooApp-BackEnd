@@ -141,10 +141,10 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var listLabel = this.userContext.Labels.Where(x => x.NotesId == notesId).ToList();
-                if (listLabel.Count > 0)
+                var Label = this.userContext.Labels.Where(x => x.NotesId == notesId).ToList();
+                if (Label.Count > 0)
                 {
-                    return listLabel;
+                    return Label;
                 }
                 return null;
             }

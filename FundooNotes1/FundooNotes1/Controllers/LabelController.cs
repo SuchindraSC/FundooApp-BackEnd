@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FundooNotes1.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class LabelController : ControllerBase
     {
         private readonly ILabelManager manager;
