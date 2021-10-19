@@ -37,14 +37,15 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<string> deleteLabels(int UserId, string labelName)
+        public async Task<string> deleteLabels(int labelId)
         {
             try
             {
-                var labelexists = this.userContext.Labels.Where(x => x.LabelName == labelName && x.UserId == UserId).SingleOrDefault();
-                if (labelexists != null)
+                var label = this.userContext.Labels.Where(x => x.LabelId == labelId).SingleOrDefault();
+                var labelexists = this.userContext.Labels.Where(x => x.LabelName == label.LabelName && x.UserId == label.UserId).ToList();
+                if (labelexists.Count > 0)
                 {
-                    this.userContext.Labels.Remove(labelexists);
+                    this.userContext.Labels.RemoveRange(labelexists);
                     await this.userContext.SaveChangesAsync();
                     return "Label Deleted Successfully";
                 }
@@ -60,25 +61,16 @@ namespace FundooRepository.Repository
         {
             try
             {
-                string message = string.Empty;
-                var exist = this.userContext.Labels.Where(x => x.LabelId == labelModel.LabelId).Select(x => x.LabelName).SingleOrDefault();
-                var existOldLabel = this.userContext.Labels.Where(x => x.LabelName == exist && x.UserId == labelModel.UserId).ToList();
-                var labelExists = this.userContext.Labels.Where(x => x.LabelName == labelModel.LabelName && x.UserId == labelModel.UserId && x.NotesId == null).SingleOrDefault();
+                var labelexist = this.userContext.Labels.Where(x => x.LabelId == labelModel.LabelId).SingleOrDefault();
+                var existOldLabel = this.userContext.Labels.Where(x => x.LabelName == labelexist.LabelName && x.UserId == labelexist.UserId).ToList();
                 if (existOldLabel.Count > 0)
                 {
-                    message = "Updated Label";
-                    if (labelExists != null)
-                    {
-                        this.userContext.Labels.Remove(labelExists);
-                        await this.userContext.SaveChangesAsync();
-                        return "Label Updated Successfully";
-                    }
-
-                    existOldLabel.ForEach(x => x.LabelName = labelModel.LabelName);
+                    //existOldLabel.ForEach(x => x.LabelName = labelModel.LabelName);
                     this.userContext.Labels.UpdateRange(existOldLabel);
                     await this.userContext.SaveChangesAsync();
+                    return "Label Updated";
                 }
-                return message;
+                return "Label Update Failed";
             }
             catch (ArgumentNullException ex)
             {
@@ -86,11 +78,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public List<string> getLabels(int UserId)
+        public List<LabelModel> getLabels(int UserId)
         {
             try
             {
-                var exist = this.userContext.Labels.Where(x => x.UserId == UserId).Select(x => x.LabelName).Distinct().ToList();
+                var exist = this.userContext.Labels.Where(x => x.UserId == UserId).Distinct().ToList();
                 if (exist != null)
                 {
                     return exist;
@@ -126,11 +118,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<string> removeLabel(int labelId, int notesId)
+        public async Task<string> removeLabel(int labelId)
         {
             try
             {
-                var existsLabel = this.userContext.Labels.Where(x => x.LabelId == labelId && x.NotesId == notesId).SingleOrDefault();
+                var existsLabel = this.userContext.Labels.Where(x => x.LabelId == labelId).SingleOrDefault();
                 if (existsLabel != null)
                 {
                     this.userContext.Labels.Remove(existsLabel);
@@ -149,10 +141,10 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var exists = this.userContext.Labels.Where(x => x.NotesId == notesId).ToList();
-                if (exists.Count > 0)
+                var listLabel = this.userContext.Labels.Where(x => x.NotesId == notesId).ToList();
+                if (listLabel.Count > 0)
                 {
-                    return exists;
+                    return listLabel;
                 }
                 return null;
             }
@@ -162,14 +154,15 @@ namespace FundooRepository.Repository
             }
         }
 
-        public List<NotesModel> getNotesbyLabel(int userId, string labelName)
+        public List<NotesModel> getNotesbyLabel(int LabelId)
         {
             try
             {
-                var exists = (from notes in this.userContext.Notes
-                              join label in this.userContext.Labels
-                              on notes.NotesId equals label.NotesId
-                              where userId == label.UserId && label.LabelName == labelName
+                var labelexists = this.userContext.Labels.Where(x => x.LabelId == LabelId).SingleOrDefault();
+                var exists = (from label in this.userContext.Labels
+                              join notes in this.userContext.Notes
+                              on label.NotesId equals notes.NotesId
+                              where labelexists.UserId == label.UserId && labelexists.LabelName == label.LabelName
                               select notes).ToList();
 
                 if (exists.Count > 0)

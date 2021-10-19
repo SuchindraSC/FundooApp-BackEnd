@@ -22,8 +22,6 @@ namespace FundooRepository.Repository
         {
             try
             {
-                
-
                 var Owner = (from user in this.userContext.Users
                              join notes in this.userContext.Notes
                              on user.UserId equals notes.UserId
@@ -32,7 +30,7 @@ namespace FundooRepository.Repository
 
                 if (Owner != null)
                 {
-                    var receiverEmailExist = this.userContext.Collaborators.Where(x => x.ReceiverEmailid == collaborator.ReceiverEmailid).SingleOrDefault();
+                    var receiverEmailExist = this.userContext.Collaborators.Where(x => x.NotesId == collaborator.NotesId && x.ReceiverEmailid == collaborator.ReceiverEmailid).SingleOrDefault();
                     if (receiverEmailExist == null)
                     {
                         this.userContext.Add(collaborator);

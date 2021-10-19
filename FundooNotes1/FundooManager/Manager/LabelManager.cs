@@ -29,11 +29,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public Task<string> deleteLabels(int UserId, string labelName)
+        public Task<string> deleteLabels(int LabelId)
         {
             try
             {
-                return this.repository.deleteLabels(UserId, labelName);
+                return this.repository.deleteLabels(LabelId);
             }
             catch (Exception ex)
             {
@@ -52,7 +52,7 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
-        public List<string> getLabels(int UserId)
+        public List<LabelModel> getLabels(int UserId)
         {
             try
             {
@@ -76,11 +76,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public Task<string> removeLabel(int labelId, int notesId)
+        public Task<string> removeLabel(int labelId)
         {
             try
             {
-                return this.repository.removeLabel(labelId, notesId);
+                return this.repository.removeLabel(labelId);
             }
             catch (Exception ex)
             {
@@ -100,11 +100,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public List<NotesModel> getNotesbyLabel(int userId, string labelName)
+        public List<NotesModel> getNotesbyLabel(int LabelId)
         {
             try
             {
-                return this.repository.getNotesbyLabel(userId, labelName);
+                return this.repository.getNotesbyLabel(LabelId);
             }
             catch (Exception ex)
             {

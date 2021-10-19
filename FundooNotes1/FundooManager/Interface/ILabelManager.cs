@@ -9,12 +9,12 @@ namespace FundooManager.Interface
     public interface ILabelManager
     {
         public Task<string> addLabels(LabelModel labelModel);
-        public Task<string> deleteLabels(int UserId, string labelName);
+        public Task<string> deleteLabels(int LabelId);
         public Task<string> updateLabels(LabelModel labelModel);
-        public List<string> getLabels(int UserId);
+        public List<LabelModel> getLabels(int UserId);
         public Task<string> addLabelToNotes(LabelModel labelModel);
-        public Task<string> removeLabel(int labelId, int notesId);
+        public Task<string> removeLabel(int labelId);
         public List<LabelModel> getLabelsByNote(int notesId);
-        public List<NotesModel> getNotesbyLabel(int userId, string labelName);
+        public List<NotesModel> getNotesbyLabel(int LabelId);
     }
 }

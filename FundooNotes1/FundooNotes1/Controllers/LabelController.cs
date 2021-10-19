@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FundooNotes1.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class LabelController : ControllerBase
     {
         private readonly ILabelManager manager;
@@ -48,11 +48,11 @@ namespace FundooNotes1.Controllers
 
         [HttpDelete]
         [Route("api/deletelabels")]
-        public async Task<IActionResult> deleteLabels(int UserId, string labelName)
+        public async Task<IActionResult> deleteLabels(int LabelId)
         {
             try
             {
-                string resultMessage = await this.manager.deleteLabels(UserId, labelName);
+                string resultMessage = await this.manager.deleteLabels(LabelId);
                 if (resultMessage.Equals("Label Deleted Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
@@ -75,7 +75,7 @@ namespace FundooNotes1.Controllers
             try
             {
                 string resultMessage = await this.manager.updateLabels(label);
-                if (resultMessage == "Updated Label")
+                if (resultMessage == "Label Updated")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
                 }
@@ -96,7 +96,7 @@ namespace FundooNotes1.Controllers
         {
             try
             {
-                List<string> data = this.manager.getLabels(UserId);
+                List<LabelModel> data = this.manager.getLabels(UserId);
                 if (data != null)
                 {
                     return this.Ok(new { Status = true, Message = "Get Label Successful", Data = data });
@@ -136,11 +136,11 @@ namespace FundooNotes1.Controllers
 
         [HttpDelete]
         [Route("api/removelabel")]
-        public async Task<IActionResult> removeLabel(int labelId, int notesId)
+        public async Task<IActionResult> removeLabel(int labelId)
         {
             try
             {
-                string result = await this.manager.removeLabel(labelId, notesId);
+                string result = await this.manager.removeLabel(labelId);
                 if (result == "Label Removed Successfully")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -176,11 +176,11 @@ namespace FundooNotes1.Controllers
 
         [HttpGet]
         [Route("api/getnotesbylabel")]
-        public IActionResult GetNotesByLabel(int userId, string labelName)
+        public IActionResult GetNotesByLabel(int LabelId)
         {
             try
             {
-                var result = this.manager.getNotesbyLabel(userId, labelName);
+                var result = this.manager.getNotesbyLabel(LabelId);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<List<NotesModel>>() { Status = true, Message = "Get Notes By Label", Data = result });
