@@ -1,30 +1,51 @@
-﻿using FundooModel;
-using FundooRepository.Context;
-using FundooRepository.Interface;
-using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-
-namespace FundooRepository.Repository
+﻿namespace FundooRepository.Repository
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Configuration;
+    using StackExchange.Redis;
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+    using global::FundooModel;
+    using global::FundooRepository.Context;
+    using global::FundooRepository.Interface;
+
+    /// <summary>
+    /// Class NotesRepository
+    /// </summary>
     public class NotesRepository : INotesRepository
     {
+        /// <summary>
+        /// UserContext userContext
+        /// </summary>
         private readonly UserContext userContext;
+
+        /// <summary>
+        /// IConfiguration Configuration
+        /// </summary>
         public readonly IConfiguration Configuration;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotesRepository"/> class.
+        /// </summary>
+        /// <param name="userContext">UserContext userContext</param>
+        /// <param name="Configuration">IConfiguration Configuration</param>
         public NotesRepository(UserContext userContext, IConfiguration Configuration)
         {
             this.userContext = userContext;
             this.Configuration = Configuration;
         }
 
+        /// <summary>
+        /// Adds the notes.
+        /// </summary>
+        /// <param name="notes">NotesModel notes</param>
+        /// <returns>Returns IActionResult Status Code After Adding The Notes</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> addNotes(NotesModel notes)
         {
             try
