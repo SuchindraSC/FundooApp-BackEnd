@@ -1,28 +1,49 @@
-﻿using FundooManager.Interface;
-using FundooModel;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LabelController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Suchindra Chitnis"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundooNotes1.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using global::FundooManager.Interface;
+    using global::FundooModel;
+
+    /// <summary>
+    /// Class LabelController
+    /// </summary>
     [Authorize]
     public class LabelController : ControllerBase
     {
+        /// <summary>
+        /// ILabelManager manager
+        /// </summary>
         private readonly ILabelManager manager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LabelController"/> class.
+        /// </summary>
+        /// <param name="manager">ILabelManager manager</param>
         public LabelController(ILabelManager manager)
         {
             this.manager = manager;
-            
         }
 
+        /// <summary>
+        /// Adds the labels.
+        /// </summary>
+        /// <param name="label">LabelModel label</param>
+        /// <returns>Returns IActionResult Status Code After Adding Label</returns>
         [HttpPost]
         [Route("api/addlabels")]
-        public async Task<IActionResult> addLabels([FromBody] LabelModel label)
+        public async Task<IActionResult> AddLabels([FromBody] LabelModel label)
         {
             try
             {
@@ -46,9 +67,14 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes the labels.
+        /// </summary>
+        /// <param name="LabelId">integer LabelId</param>
+        /// <returns>Returns IActionResult Status Code After Deleting Labels</returns>
         [HttpDelete]
         [Route("api/deletelabels")]
-        public async Task<IActionResult> deleteLabels(int LabelId)
+        public async Task<IActionResult> DeleteLabels(int LabelId)
         {
             try
             {
@@ -68,9 +94,14 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the labels.
+        /// </summary>
+        /// <param name="label">LabelModel label</param>
+        /// <returns>Returns IActionResult Status Code After Updating Labels</returns>
         [HttpPut]
         [Route("api/updatelabels")]
-        public async Task<IActionResult> updateLabels([FromBody] LabelModel label)
+        public async Task<IActionResult> UpdateLabels([FromBody] LabelModel label)
         {
             try
             {
@@ -90,9 +121,14 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the labels.
+        /// </summary>
+        /// <param name="UserId">integer UserId</param>
+        /// <returns>Returns IActionResult Status Code After Getting Labels</returns>
         [HttpGet]
         [Route("api/getlabels")]
-        public  IActionResult getLabels(int UserId)
+        public IActionResult GetLabels(int UserId)
         {
             try
             {
@@ -112,16 +148,21 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds the label to notes.
+        /// </summary>
+        /// <param name="labelModel">LabelModel labelModel</param>
+        /// <returns>Returns IActionResult Status Code After Adding Labels To Notes</returns>
         [HttpPut]
         [Route("api/addlabeltonotes")]
-        public async Task<IActionResult> addLabelToNotes([FromBody] LabelModel labelModel)
+        public async Task<IActionResult> AddLabelToNotes([FromBody] LabelModel labelModel)
         {
             try
             {
                 string resultMessage = await this.manager.addLabelToNotes(labelModel);
                 if (resultMessage.Equals("Added Label To Note"))
                 {
-                    return this.Ok(new ResponseModel<string>(){ Status = true, Message = resultMessage});
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
                 }
                 else
                 {
@@ -134,9 +175,14 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Removes the label.
+        /// </summary>
+        /// <param name="labelId">integer labelId</param>
+        /// <returns>Returns IActionResult Status Code After Removing Labels From Notes</returns>
         [HttpDelete]
         [Route("api/removelabel")]
-        public async Task<IActionResult> removeLabel(int labelId)
+        public async Task<IActionResult> RemoveLabel(int labelId)
         {
             try
             {
@@ -154,6 +200,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the label by note identifier.
+        /// </summary>
+        /// <param name="notesId">integer notesId</param>
+        /// <returns>Returns IActionResult Status Code After Getting Labels By Notes</returns>
         [HttpGet]
         [Route("api/getlabelbynoteid")]
         public IActionResult GetLabelByNoteId(int notesId)
@@ -174,6 +225,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the notes by label.
+        /// </summary>
+        /// <param name="LabelId">integer LabelId</param>
+        /// <returns>Returns IActionResult Status Code After Getting Notes By Label</returns>
         [HttpGet]
         [Route("api/getnotesbylabel")]
         public IActionResult GetNotesByLabel(int LabelId)
