@@ -10,14 +10,16 @@ namespace FundooRepository.Repository
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
     using Newtonsoft.Json;
     using Experimental.System.Messaging;
     using StackExchange.Redis;
-    using FundooModel;
-    using FundooRepository.Context;
-    using FundooRepository.Interface;
+    using global::FundooModel;
+    using global::FundooRepository.Context;
+    using global::FundooRepository.Interface;
 
     /// <summary>
     /// class UserRepository

@@ -34,6 +34,7 @@ namespace FundooNotes1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSession();
             services.AddDbContextPool<UserContext>(
                 options => options.UseSqlServer(this.Configuration.GetConnectionString("UserDbConnection")));
 
@@ -117,6 +118,8 @@ namespace FundooNotes1
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

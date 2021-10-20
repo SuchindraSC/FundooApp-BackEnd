@@ -13,6 +13,7 @@ namespace FundooNotes1.Controllers
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Microsoft.AspNetCore.Http;
     using FundooManager.Interface;
     using StackExchange.Redis;
     using global::FundooModel;
@@ -57,10 +58,14 @@ namespace FundooNotes1.Controllers
             try
             {
                 this.logger.LogInformation(user.FirstName + " " + user.LastName + " is trying to register");
+                HttpContext.Session.SetString("UserName", user.FirstName + " " + user.LastName);
+                HttpContext.Session.SetString("UserEmail", user.Emailid);
                 string resultMessage = await this.manager.Register(user);
                 if (resultMessage.Equals("Registration Successfull"))
                 {
                     this.logger.LogInformation(user.FirstName + " " + user.LastName + " "+resultMessage);
+                    var userName = HttpContext.Session.GetString("UserName");
+                    var userEmail = HttpContext.Session.GetString("UserEmail");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
                 }
                 else
@@ -106,7 +111,7 @@ namespace FundooNotes1.Controllers
                         UserId = userId,
                         Emailid = loginModel.Emailid
                     };
-                    return this.Ok(new { Status = true, Message = message , Data = data, tokenString});
+                    return this.Ok(new { Status = true, Message = message , Data = data, tokenString, userId});
                 }
                 else if (message.Equals("Invalid Password"))
                 {
