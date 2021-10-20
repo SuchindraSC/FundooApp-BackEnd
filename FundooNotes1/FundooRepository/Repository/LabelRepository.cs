@@ -1,24 +1,46 @@
-﻿using FundooModel;
-using FundooRepository.Context;
-using FundooRepository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LabelRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Suchindra Chitnis"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundooRepository.Repository
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using global::FundooModel;
+    using global::FundooRepository.Context;
+    using global::FundooRepository.Interface;
+
+    /// <summary>
+    /// Class Lebal Repository
+    /// </summary>
     public class LabelRepository : ILabelRepository
     {
+        /// <summary>
+        /// UserContext userContext
+        /// </summary>
         private readonly UserContext userContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LabelRepository"/> class.
+        /// </summary>
+        /// <param name="userContext"></param>
         public LabelRepository(UserContext userContext)
         {
             this.userContext = userContext;
         }
 
-        public async Task<string> addLabels(LabelModel labelModel)
+        /// <summary>
+        /// Adds label
+        /// </summary>
+        /// <param name="labelModel">LabelModel labelModel</param>
+        /// <returns>returns string after successfully adding label without notesId</returns>
+        public async Task<string> AddLabels(LabelModel labelModel)
         {
             try
             {
@@ -37,7 +59,12 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<string> deleteLabels(int labelId)
+        /// <summary>
+        /// Delete the Labels
+        /// </summary>
+        /// <param name="labelId">integer labelId</param>
+        /// <returns>returns a string after deleting from home</returns>
+        public async Task<string> DeleteLabels(int labelId)
         {
             try
             {
@@ -57,7 +84,12 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<string> updateLabels(LabelModel labelModel)
+        /// <summary>
+        /// Edit label name
+        /// </summary>
+        /// <param name="labelModel">LabelModel labelModel</param>
+        /// <returns>returns a string after editing label</returns>
+        public async Task<string> UpdateLabels(LabelModel labelModel)
         {
             try
             {
@@ -78,7 +110,12 @@ namespace FundooRepository.Repository
             }
         }
 
-        public List<LabelModel> getLabels(int UserId)
+        /// <summary>
+        /// Gets Label Based on userId
+        /// </summary>
+        /// <param name="UserId">integer UserId</param>
+        /// <returns>returns a list for getting labels based on userID</returns>
+        public List<LabelModel> GetLabels(int UserId)
         {
             try
             {
@@ -95,7 +132,12 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<string> addLabelToNotes(LabelModel labelModel)
+        /// <summary>
+        /// Add Label To Notes
+        /// </summary>
+        /// <param name="labelModel">LabelModel labelModel</param>
+        /// <returns>returns a string after adding label from notes</returns>
+        public async Task<string> AddLabelToNotes(LabelModel labelModel)
         {
             try
             {
@@ -106,7 +148,7 @@ namespace FundooRepository.Repository
                     await this.userContext.SaveChangesAsync();
                     labelModel.LabelId = 0;
                     labelModel.NotesId = null;
-                    await this.addLabels(labelModel);
+                    await this.AddLabels(labelModel);
                     return "Added Label To Note";
                 }
 
@@ -118,7 +160,12 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<string> removeLabel(int labelId)
+        /// <summary>
+        /// Removes the Label from Note
+        /// </summary>
+        /// <param name="labelId">integer labelId</param>
+        /// <returns></returns>
+        public async Task<string> RemoveLabel(int labelId)
         {
             try
             {
@@ -137,7 +184,12 @@ namespace FundooRepository.Repository
             }
         }
 
-        public List<LabelModel> getLabelsByNote(int notesId)
+        /// <summary>
+        /// Get Labels By Note
+        /// </summary>
+        /// <param name="notesId">integer notesId</param>
+        /// <returns></returns>
+        public List<LabelModel> GetLabelsByNote(int notesId)
         {
             try
             {
@@ -154,7 +206,12 @@ namespace FundooRepository.Repository
             }
         }
 
-        public List<NotesModel> getNotesbyLabel(int LabelId)
+        /// <summary>
+        /// Get Notes by Label
+        /// </summary>
+        /// <param name="LabelId">integer LabelId</param>
+        /// <returns></returns>
+        public List<NotesModel> GetNotesbyLabel(int LabelId)
         {
             try
             {

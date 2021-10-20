@@ -47,7 +47,7 @@ namespace FundooNotes1.Controllers
         {
             try
             {
-                string resultMessage = await this.manager.addLabels(label);
+                string resultMessage = await this.manager.AddLabels(label);
                 if (resultMessage.Equals("Label Added Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
@@ -78,7 +78,7 @@ namespace FundooNotes1.Controllers
         {
             try
             {
-                string resultMessage = await this.manager.deleteLabels(LabelId);
+                string resultMessage = await this.manager.DeleteLabels(LabelId);
                 if (resultMessage.Equals("Label Deleted Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
@@ -105,7 +105,7 @@ namespace FundooNotes1.Controllers
         {
             try
             {
-                string resultMessage = await this.manager.updateLabels(label);
+                string resultMessage = await this.manager.UpdateLabels(label);
                 if (resultMessage == "Label Updated")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
@@ -132,10 +132,10 @@ namespace FundooNotes1.Controllers
         {
             try
             {
-                List<LabelModel> data = this.manager.getLabels(UserId);
+                List<LabelModel> data = this.manager.GetLabels(UserId);
                 if (data != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Get Label Successful", Data = data });
+                    return this.Ok(new { Status = true, Message = "Get Label Successfull", Data = data });
                 }
                 else
                 {
@@ -159,7 +159,7 @@ namespace FundooNotes1.Controllers
         {
             try
             {
-                string resultMessage = await this.manager.addLabelToNotes(labelModel);
+                string resultMessage = await this.manager.AddLabelToNotes(labelModel);
                 if (resultMessage.Equals("Added Label To Note"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
@@ -186,7 +186,7 @@ namespace FundooNotes1.Controllers
         {
             try
             {
-                string result = await this.manager.removeLabel(labelId);
+                string result = await this.manager.RemoveLabel(labelId);
                 if (result == "Label Removed Successfully")
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -211,7 +211,7 @@ namespace FundooNotes1.Controllers
         {
             try
             {
-                var result = this.manager.getLabelsByNote(notesId);
+                var result = this.manager.GetLabelsByNote(notesId);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<List<LabelModel>>() { Status = true, Message = "Get Label By Notes", Data = result });
@@ -236,7 +236,7 @@ namespace FundooNotes1.Controllers
         {
             try
             {
-                var result = this.manager.getNotesbyLabel(LabelId);
+                var result = this.manager.GetNotesbyLabel(LabelId);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<List<NotesModel>>() { Status = true, Message = "Get Notes By Label", Data = result });

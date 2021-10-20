@@ -1,34 +1,56 @@
-﻿using FundooModel;
-using FundooRepository.Context;
-using FundooRepository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using System.Net.Mail;
-using System.Threading.Tasks;
-using Experimental.System.Messaging;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Configuration;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using StackExchange.Redis;
+﻿
 
 namespace FundooRepository.Repository
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Net.Mail;
+    using System.Security.Claims;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.IdentityModel.Tokens;
+    using Newtonsoft.Json;
+    using Experimental.System.Messaging;
+    using StackExchange.Redis;
+    using FundooModel;
+    using FundooRepository.Context;
+    using FundooRepository.Interface;
+
+    /// <summary>
+    /// class UserRepository
+    /// </summary>
     public class UserRepository : IUserRepository
     {
+        /// <summary>
+        /// UserContext userContext
+        /// </summary>
         private readonly UserContext userContext;
 
+        /// <summary>
+        /// IConfiguration configuration
+        /// </summary>
         private readonly IConfiguration configuration;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRepository"/> class.
+        /// </summary>
+        /// <param name="userContext">UserContext userContext</param>
+        /// <param name="configuration">IConfiguration configuration</param>
         public UserRepository(UserContext userContext, IConfiguration configuration)
         {
             this.userContext = userContext;
             this.configuration = configuration;
         }
 
+        /// <summary>
+        /// Registers the specified user.
+        /// </summary>
+        /// <param name="user">UserModel user</param>
+        /// <returns>Returns string if Register is successful</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> Register(UserModel user)
         {
             try
@@ -53,6 +75,12 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// Logins the specified login model.
+        /// </summary>
+        /// <param name="loginModel">LoginModel loginModel</param>
+        /// <returns>returns string if login is successful</returns>
+        /// <exception cref="System.Exception"></exception>
         public string Login(LoginModel loginModel)
         {
             try
@@ -90,6 +118,12 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// Forgots the password.
+        /// </summary>
+        /// <param name="Emailid">string Emailid</param>
+        /// <returns>Returns string if mail sent successful else false</returns>
+        /// <exception cref="System.Exception"></exception>
         public string ForgotPassword(string Emailid)
         {
             try
@@ -128,6 +162,11 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// Sends the email.
+        /// </summary>
+        /// <param name="Emailid">string Emailid</param>
+        /// <exception cref="System.Exception"></exception>
         public void SendEmail(string Emailid)
         {
             try
@@ -164,6 +203,12 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// Resets the password.
+        /// </summary>
+        /// <param name="resetPasswordModel">ResetPasswordModel resetPasswordModel</param>
+        /// <returns>Returns string if the password is successfully reset</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> ResetPassword(ResetPasswordModel resetPasswordModel)
         {
             try
@@ -189,6 +234,11 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// Encryptdatas the specified password.
+        /// </summary>
+        /// <param name="password">string password</param>
+        /// <returns></returns>
         public static string Encryptdata(string password)
         {
             string strmsg = string.Empty;
@@ -198,8 +248,12 @@ namespace FundooRepository.Repository
             return strmsg;
         }
 
-        
-
+        /// <summary>
+        /// Generates the token.
+        /// </summary>
+        /// <param name="Emailid">string Emailid)</param>
+        /// <returns>Returns the token when user logins</returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
         public string GenerateToken(string Emailid)
         {
             try

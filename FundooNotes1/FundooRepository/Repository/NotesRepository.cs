@@ -1,4 +1,11 @@
-﻿namespace FundooRepository.Repository
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NotesRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Suchindra Chitnis"/>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace FundooRepository.Repository
 {
     using System;
     using System.Collections.Generic;
@@ -46,7 +53,7 @@
         /// <param name="notes">NotesModel notes</param>
         /// <returns>Returns IActionResult Status Code After Adding The Notes</returns>
         /// <exception cref="System.Exception"></exception>
-        public async Task<string> addNotes(NotesModel notes)
+        public async Task<string> AddNotes(NotesModel notes)
         {
             try
             {
@@ -68,8 +75,13 @@
             }
         }
 
-
-        public List<NotesModel> getNotes(int UserId)
+        /// <summary>
+        /// Gets the notes.
+        /// </summary>
+        /// <param name="UserId">integer UserId</param>
+        /// <returns>returns list after passing UserId</returns>
+        /// <exception cref="System.Exception"></exception>
+        public List<NotesModel> GetNotes(int UserId)
         {
             try
             {
@@ -91,6 +103,12 @@
             }
         }
 
+        /// <summary>
+        /// Updates the notes.
+        /// </summary>
+        /// <param name="notes">NotesModel notes</param>
+        /// <returns>returns string after updating notes</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> UpdateNotes(NotesModel notes)
         {
             try
@@ -115,6 +133,12 @@
             }
         }
 
+        /// <summary>
+        /// Trash the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after adding notes to trash</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> TrashNotes(int NotesId)
         {
             try
@@ -140,7 +164,13 @@
             }
         }
 
-        public List<NotesModel> getTrashNotes(int UserId)
+        /// <summary>
+        /// Gets the trashed notes.
+        /// </summary>
+        /// <param name="UserId">integer UserId</param>
+        /// <returns>returns list after getting notes</returns>
+        /// <exception cref="System.Exception"></exception>
+        public List<NotesModel> GetTrashNotes(int UserId)
         {
             try
             {
@@ -160,6 +190,12 @@
             }
         }
 
+        /// <summary>
+        /// Untrash the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after returning the notes from trash</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> UnTrashNotes(int NotesId)
         {
             try
@@ -182,6 +218,12 @@
             }
         }
 
+        /// <summary>
+        /// Deletes the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after deleting notes</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> DeleteNotes(int NotesId)
         {
             try
@@ -204,6 +246,12 @@
             }
         }
 
+        /// <summary>
+        /// Archieves the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after notes sent to archieve</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> ArchieveNotes(int NotesId)
         {
             try
@@ -228,6 +276,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the archieved notes.
+        /// </summary>
+        /// <param name="UserId">integer UserId</param>
+        /// <returns>returns list after getting notes from archieve</returns>
+        /// <exception cref="System.Exception"></exception>
         public List<NotesModel> GetArchievedNotes(int UserId)
         {
             try
@@ -248,6 +302,12 @@
             }
         }
 
+        /// <summary>
+        /// Unarchieve the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after returning notes from archieve</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> UnArchieveNotes(int NotesId)
         {
             try
@@ -270,6 +330,12 @@
             }
         }
 
+        /// <summary>
+        /// Pins the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after pinning notes</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> PinNotes(int NotesId)
         {
             try
@@ -293,6 +359,12 @@
             }
         }
 
+        /// <summary>
+        /// Unpin the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after unpinning notes</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> UnPinNotes(int NotesId)
         {
             try
@@ -315,7 +387,14 @@
             }
         }
 
-        public async Task<string> AddRemainder(int NotesId, string time)
+        /// <summary>
+        /// Adds the remainder.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <param name="time">string time</param>
+        /// <returns>returns string after adding reminder</returns>
+        /// <exception cref="System.Exception"></exception>
+        public async Task<string> AddReminder(int NotesId, string time)
         {
             try
             {
@@ -338,6 +417,12 @@
             }
         }
 
+        /// <summary>
+        /// Gets the reminder notes.
+        /// </summary>
+        /// <param name="UserId">integer UserId</param>
+        /// <returns>returns list after getting reminder notes</returns>
+        /// <exception cref="System.Exception"></exception>
         public List<NotesModel> GetReminderNotes(int UserId)
         {
             try
@@ -355,7 +440,13 @@
             }
         }
 
-        public async Task<string> RemoveRemainder(int NoteId)
+        /// <summary>
+        /// Removes the reminder.
+        /// </summary>
+        /// <param name="NoteId">integer NoteId</param>
+        /// <returns>returns string after removing reminder</returns>
+        /// <exception cref="System.Exception"></exception>
+        public async Task<string> RemoveReminder(int NoteId)
         {
             try
             {
@@ -378,6 +469,13 @@
             }
         }
 
+        /// <summary>
+        /// Updates the color to note.
+        /// </summary>
+        /// <param name="NoteId">integer NoteId</param>
+        /// <param name="color">string color</param>
+        /// <returns>returns string after adding color to notes</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> UpdateColorToNote(int NoteId, string color)
         {
             try
@@ -400,6 +498,13 @@
             }
         }
 
+        /// <summary>
+        /// Adds the image.
+        /// </summary>
+        /// <param name="NoteId">integer NoteId</param>
+        /// <param name="image">IFormFile image</param>
+        /// <returns>returns string after adding image</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> AddImage(int NoteId, IFormFile image)
         {
             try
@@ -434,6 +539,12 @@
             }
         }
 
+        /// <summary>
+        /// Removes the image.
+        /// </summary>
+        /// <param name="NoteId">int NoteId</param>
+        /// <returns>returns string after removing image</returns>
+        /// <exception cref="System.Exception"></exception>
         public async Task<string> RemoveImage(int NoteId)
         {
             try

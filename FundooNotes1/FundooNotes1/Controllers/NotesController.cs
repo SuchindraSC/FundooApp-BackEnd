@@ -1,37 +1,63 @@
-﻿using FundooManager.Interface;
-using FundooModel;
-using FundooRepository.Interface;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NotesController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Suchindra Chitnis"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundooNotes1.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using StackExchange.Redis;
+    using global::FundooManager.Interface;
+    using global::FundooModel;
+    using global::FundooRepository.Interface;
+
+    /// <summary>
+    /// class NotesController
+    /// </summary>
     [Authorize]
     public class NotesController : ControllerBase
     {
+        /// <summary>
+        /// INoteManager manager
+        /// </summary>
         private readonly INoteManager manager;
 
+        /// <summary>
+        /// INotesRepository repository
+        /// </summary>
         private readonly INotesRepository repository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotesController"/> class.
+        /// </summary>
+        /// <param name="manager">INoteManager manager</param>
+        /// <param name="repository">INotesRepository repository</param>
         public NotesController(INoteManager manager, INotesRepository repository)
         {
             this.manager = manager;
             this.repository = repository;
         }
 
+        /// <summary>
+        /// Adds the notes.
+        /// </summary>
+        /// <param name="note">NotesModel note</param>
+        /// <returns>returns string after adding notes</returns>
         [HttpPost]
         [Route("api/addnotes")]
-        public async Task<IActionResult> addNotes([FromBody] NotesModel note)
+        public async Task<IActionResult> AddNotes([FromBody] NotesModel note)
         {
             try
             {
-                string resultMessage = await this.manager.addNotes(note);
+                string resultMessage = await this.manager.AddNotes(note);
                 if (resultMessage.Equals("Note Added Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
@@ -47,13 +73,18 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the notes.
+        /// </summary>
+        /// <param name="UserId">integer UserId</param>
+        /// <returns>returns list after getting notes</returns>
         [HttpGet]
         [Route("api/getnotes")]
-        public IActionResult getNotes(int UserId)
+        public IActionResult GetNotes(int UserId)
         {
             try
             {
-                List<NotesModel> data = this.manager.getNotes(UserId);
+                List<NotesModel> data = this.manager.GetNotes(UserId);
                 if (data != null)
                 { 
                     return this.Ok(new { Status = true, Message = $"Notes for UserId {UserId} are", Data = data });
@@ -69,6 +100,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the notes.
+        /// </summary>
+        /// <param name="notes">NotesModel notes</param>
+        /// <returns>returns string after updating notes</returns>
         [HttpPut]
         [Route("api/updatenotes")]
         public async Task<IActionResult> UpdateNotes([FromBody] NotesModel notes)
@@ -91,6 +127,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Trash the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after adding notes to trash</returns>
         [HttpPut]
         [Route("api/trashnotes")]
         public async Task<IActionResult> TrashNotes(int NotesId)
@@ -113,13 +154,18 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the trashed notes.
+        /// </summary>
+        /// <param name="UserId">integer UserId</param>
+        /// <returns>returns list after getting notes</returns>
         [HttpGet]
         [Route("api/gettrashnotes")]
-        public IActionResult getTrashNotes(int UserId)
+        public IActionResult GetTrashNotes(int UserId)
         {
             try
             {
-                List<NotesModel> data = this.manager.getTrashNotes(UserId);
+                List<NotesModel> data = this.manager.GetTrashNotes(UserId);
                 if (data != null)
                 {
                     return this.Ok(new { Status = true, Message = $"Notes for User Id {UserId} in Trash are", Data = data });
@@ -135,6 +181,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Untrash the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after returning the notes from trash</returns>
         [HttpPut]
         [Route("api/untrashnotes")]
         public async Task<IActionResult> UnTrashNotes(int NotesId)
@@ -157,6 +208,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after deleting notes</returns>
         [HttpDelete]
         [Route("api/deletenotes")]
         public async Task<IActionResult> DeleteNotes(int NotesId)
@@ -179,6 +235,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Archieves the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after notes sent to archieve</returns>
         [HttpPut]
         [Route("api/archievenotes")]
         public async Task<IActionResult> ArchieveNotes(int NotesId)
@@ -201,6 +262,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the archieved notes.
+        /// </summary>
+        /// <param name="UserId">integer UserId</param>
+        /// <returns>returns list after getting notes from archieve</returns>
         [HttpGet]
         [Route("api/getarchievenotes")]
         public IActionResult GetArchieveNotes(int UserId)
@@ -223,6 +289,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Unarchieve the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after returning notes from archieve</returns>
         [HttpPut]
         [Route("api/unarchievenotes")]
         public async Task<IActionResult> UnArchieveNotes(int NotesId)
@@ -245,6 +316,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Pins the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after pinning notes</returns>
         [HttpPut]
         [Route("api/pinnotes")]
         public async Task<IActionResult> PinNotes(int NotesId)
@@ -267,6 +343,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Unpin the notes.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <returns>returns string after unpinning notes</returns>
         [HttpPut]
         [Route("api/unpinnotes")]
         public async Task<IActionResult> UnPinNotes(int NotesId)
@@ -289,13 +370,19 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds the remainder.
+        /// </summary>
+        /// <param name="NotesId">integer NotesId</param>
+        /// <param name="time">string time</param>
+        /// <returns>returns string after adding reminder</returns>
         [HttpPut]
         [Route("api/setreminder")]
         public async Task<IActionResult> AddReminder(int NotesId, string time)
         {
             try
             {
-                string resultMessage = await this.manager.AddRemainder(NotesId, time);
+                string resultMessage = await this.manager.AddReminder(NotesId, time);
                 if (resultMessage.Equals("Remainder Added Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
@@ -311,6 +398,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the reminder notes.
+        /// </summary>
+        /// <param name="UserId">integer UserId</param>
+        /// <returns>returns list after getting reminder notes</returns>
         [HttpGet]
         [Route("api/getremindernotes")]
         public IActionResult getReminderNotes(int UserId)
@@ -333,13 +425,18 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Removes the reminder.
+        /// </summary>
+        /// <param name="NoteId">integer NoteId</param>
+        /// <returns>returns string after removing reminder</returns>
         [HttpPut]
         [Route("api/removereminder")]
         public async Task<IActionResult> RemoveReminder(int NotesId)
         {
             try
             {
-                string resultMessage = await this.manager.RemoveRemainder(NotesId);
+                string resultMessage = await this.manager.RemoveReminder(NotesId);
                 if (resultMessage.Equals("Reminder Removed Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
@@ -355,6 +452,12 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the color to note.
+        /// </summary>
+        /// <param name="NoteId">integer NoteId</param>
+        /// <param name="color">string color</param>
+        /// <returns>returns string after adding color to notes</returns>
         [HttpPut]
         [Route("api/addcolor")]
         public async Task<IActionResult> UpdateColorToNote(int NoteId, string color)
@@ -377,6 +480,12 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds the image.
+        /// </summary>
+        /// <param name="NoteId">integer NoteId</param>
+        /// <param name="image">IFormFile image</param>
+        /// <returns>returns string after adding image</returns>
         [HttpPut]
         [Route("api/addimage")]
         public async Task<IActionResult> AddImage(int NoteId, IFormFile image)
@@ -399,6 +508,11 @@ namespace FundooNotes1.Controllers
             }
         }
 
+        /// <summary>
+        /// Removes the image.
+        /// </summary>
+        /// <param name="NoteId">int NoteId</param>
+        /// <returns>returns string after removing image</returns>
         [HttpPut]
         [Route("api/removeimage")]
         public async Task<IActionResult> RemoveImage(int NoteId)
