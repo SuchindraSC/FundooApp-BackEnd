@@ -1,4 +1,10 @@
-﻿
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Suchindra Chitnis"/>
+// --------------------------------------------------------------------------------------------------------------------
+
 
 namespace FundooRepository.Repository
 {
