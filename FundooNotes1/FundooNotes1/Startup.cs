@@ -38,6 +38,13 @@ namespace FundooNotes1
             services.AddDbContextPool<UserContext>(
                 options => options.UseSqlServer(this.Configuration.GetConnectionString("UserDbConnection")));
 
+            services.AddCors(options => options.AddPolicy("AllowAllHeaders", builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }));
+
             services.AddSwaggerGen(c =>
             {
                c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Fundoo Notes", Description = "Separate UI for Testing API", Version = "1.0" });
@@ -108,6 +115,7 @@ namespace FundooNotes1
             //    The default HSTS value is 30 days.You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             //    app.UseHsts();
             //}
+            app.UseCors("AllowAllHeaders");
 
             app.UseHttpsRedirection();
 

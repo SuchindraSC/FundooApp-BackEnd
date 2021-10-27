@@ -152,7 +152,7 @@ namespace FundooRepository.Repository
 
                     Message message = new Message();
                     message.Formatter = new BinaryMessageFormatter();
-                    message.Body = $"You requested for forgot password of {Emailid}. Please Reset The Password";
+                    message.Body = $"You requested for forgot password of {Emailid}. Please Reset The Password. Reset Link is http://localhost:4200/resetpassword";
                     msgqueue.Label = "Mail";
                     msgqueue.Send(message);
                     SendEmail(Emailid);

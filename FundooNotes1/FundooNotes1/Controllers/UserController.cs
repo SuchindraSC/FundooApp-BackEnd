@@ -23,6 +23,7 @@ namespace FundooNotes1.Controllers
     /// <summary>
     /// class UserController
     /// </summary>
+    [ApiController]
     public class UserController : ControllerBase
     {
         /// <summary>
