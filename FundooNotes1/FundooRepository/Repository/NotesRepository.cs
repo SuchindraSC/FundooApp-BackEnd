@@ -119,6 +119,7 @@ namespace FundooRepository.Repository
                     var updatedNotes = this.userContext.Notes.Where(x => x.NotesId == notes.NotesId).SingleOrDefault();
                     updatedNotes.Title = notes.Title;
                     updatedNotes.Description = notes.Description;
+                    updatedNotes.Color = notes.Color;
                     await this.userContext.SaveChangesAsync();
                     return "Notes Updated Successfully";
                 }
@@ -245,6 +246,37 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Empties the trash.
+        /// </summary>
+        /// <param name="UserId">integer UserId</param>
+        /// <returns>
+        /// returns string after empty trash
+        /// </returns>
+        public async Task<string> EmptyTrash(int UserId)
+        {
+            try
+            {
+                var checkTrash = this.userContext.Notes.Any(x => x.UserId == UserId && x.Is_Trash == true);
+                if (checkTrash)
+                {
+                    var emptyTrash = this.userContext.Notes.Where(x => x.UserId == UserId && x.Is_Trash == true).ToList();
+                    this.userContext.Notes.RemoveRange(emptyTrash);
+                    await this.userContext.SaveChangesAsync();
+                    return "Trash Emptied Successfully";
+                }
+                else
+                {
+                    return "Empty Trash Failed";
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
         /// <summary>
         /// Archieves the notes.

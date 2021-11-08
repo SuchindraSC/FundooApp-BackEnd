@@ -162,6 +162,25 @@ namespace FundooManager.Manager
         }
 
         /// <summary>
+        /// Empties the trash.
+        /// </summary>
+        /// <param name="UserId">integer UserId.</param>
+        /// <returns>
+        /// returns string after empty trash
+        /// </returns>
+        public Task<string> EmptyTrash(int UserId)
+        {
+            try
+            {
+                return this.repository.EmptyTrash(UserId);
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Archieves the notes.
         /// </summary>
         /// <param name="NotesId">integer NotesId</param>

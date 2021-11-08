@@ -58,3 +58,83 @@
 2021-10-27 23:01:04.9888 Info Adding target AsyncTargetWrapper(Name=alldata)
 2021-10-27 23:01:05.3053 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
 2021-10-27 23:01:06.1750 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-10-28 08:22:25.2107 Info Message Template Auto Format enabled
+2021-10-28 08:22:25.4065 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-28 08:22:25.8052 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-10-28 08:22:26.0398 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-10-28 08:22:26.3506 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-10-28 23:31:39.7113 Info Message Template Auto Format enabled
+2021-10-28 23:31:40.0009 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-28 23:31:40.9442 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-10-28 23:31:41.0287 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-10-28 23:31:41.2662 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-10-29 08:01:59.5897 Info Message Template Auto Format enabled
+2021-10-29 08:01:59.7880 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-29 08:02:00.3411 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-10-29 08:02:00.4978 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-10-29 08:02:01.7844 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-10-29 21:33:19.4851 Info Message Template Auto Format enabled
+2021-10-29 21:33:19.5181 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-29 21:33:19.6458 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-10-29 21:33:19.6894 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-10-29 21:33:19.7784 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-10-29 22:32:04.0921 Info Message Template Auto Format enabled
+2021-10-29 22:32:04.2006 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-29 22:32:04.4661 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-10-29 22:32:04.5180 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-10-29 22:32:04.7807 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-10-30 09:02:04.5274 Info Message Template Auto Format enabled
+2021-10-30 09:02:04.7516 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-30 09:02:05.0999 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-10-30 09:02:05.4588 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-10-30 09:02:05.8312 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-10-31 12:12:50.5273 Info Message Template Auto Format enabled
+2021-10-31 12:12:50.7252 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-31 12:12:51.3658 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-10-31 12:12:51.4994 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-10-31 12:12:51.9370 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-10-31 12:19:58.5993 Info Message Template Auto Format enabled
+2021-10-31 12:19:59.0352 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-31 12:19:59.7473 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-10-31 12:19:59.8229 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-10-31 12:20:00.1527 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-11-01 08:08:34.5376 Info Message Template Auto Format enabled
+2021-11-01 08:08:34.9370 Info Loading assembly: NLog.Web.AspNetCore
+2021-11-01 08:08:35.5693 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-11-01 08:08:35.7154 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-11-01 08:08:35.9557 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-11-02 08:12:46.4423 Info Message Template Auto Format enabled
+2021-11-02 08:12:47.2926 Info Loading assembly: NLog.Web.AspNetCore
+2021-11-02 08:12:48.7302 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-11-02 08:12:49.1871 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-11-02 08:12:51.5433 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-11-02 22:17:44.9771 Info Message Template Auto Format enabled
+2021-11-02 22:17:45.1344 Info Loading assembly: NLog.Web.AspNetCore
+2021-11-02 22:17:45.5438 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-11-02 22:17:45.5956 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-11-02 22:17:45.7071 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-11-03 08:00:45.2487 Info Message Template Auto Format enabled
+2021-11-03 08:00:45.3381 Info Loading assembly: NLog.Web.AspNetCore
+2021-11-03 08:00:45.7712 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-11-03 08:00:45.8574 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-11-03 08:00:46.3178 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-11-05 22:19:26.5851 Info Message Template Auto Format enabled
+2021-11-05 22:19:26.7720 Info Loading assembly: NLog.Web.AspNetCore
+2021-11-05 22:19:27.2301 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-11-05 22:19:27.4435 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-11-05 22:19:27.8374 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-11-06 09:02:52.0241 Info Message Template Auto Format enabled
+2021-11-06 09:02:52.1218 Info Loading assembly: NLog.Web.AspNetCore
+2021-11-06 09:02:52.4111 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-11-06 09:02:52.5124 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-11-06 09:02:52.6473 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-11-06 14:24:09.7371 Info Message Template Auto Format enabled
+2021-11-06 14:24:09.8375 Info Loading assembly: NLog.Web.AspNetCore
+2021-11-06 14:24:10.2400 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-11-06 14:24:10.3176 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-11-06 14:24:10.8975 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config
+2021-11-06 21:51:26.3160 Info Message Template Auto Format enabled
+2021-11-06 21:51:26.7425 Info Loading assembly: NLog.Web.AspNetCore
+2021-11-06 21:51:27.8634 Info Adding target AsyncTargetWrapper(Name=alldata)
+2021-11-06 21:51:28.2232 Info Adding target AsyncTargetWrapper(Name=otherfile-web)
+2021-11-06 21:51:28.7834 Info Validating config: TargetNames=alldata, otherfile-web, ConfigItems=47, FilePath=C:\Users\suchi\OneDrive\Documents\CFP Bridgelabz\FundooApp\FundooNotes1\FundooNotes1\bin\Debug\netcoreapp3.1\NLog.config

@@ -69,6 +69,13 @@ namespace FundooRepository.Interface
         public Task<string> DeleteNotes(int NotesId);
 
         /// <summary>
+        /// Empties the trash.
+        /// </summary>
+        /// <param name="UserId">integer UserId</param>
+        /// <returns>returns string after empty trash</returns>
+        public Task<string> EmptyTrash(int UserId);
+
+        /// <summary>
         /// Archieves the notes.
         /// </summary>
         /// <param name="NotesId">integer NotesId</param>

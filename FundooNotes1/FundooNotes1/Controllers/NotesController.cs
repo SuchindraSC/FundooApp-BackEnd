@@ -22,6 +22,7 @@ namespace FundooNotes1.Controllers
     /// <summary>
     /// class NotesController
     /// </summary>
+    [ApiController]
     [Authorize]
     public class NotesController : ControllerBase
     {
@@ -221,6 +222,28 @@ namespace FundooNotes1.Controllers
             {
                 string resultMessage = await this.manager.DeleteNotes(NotesId);
                 if (resultMessage.Equals("Note Deleted Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpDelete]
+        [Route("api/emptytrash")]
+        public async Task<IActionResult> EmptyTrash(int UserId)
+        {
+            try
+            {
+                string resultMessage = await this.manager.EmptyTrash(UserId);
+                if (resultMessage.Equals("Trash Emptied Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
                 }

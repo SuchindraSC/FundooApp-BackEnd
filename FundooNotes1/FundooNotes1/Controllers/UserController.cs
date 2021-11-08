@@ -112,7 +112,7 @@ namespace FundooNotes1.Controllers
                         UserId = userId,
                         Emailid = loginModel.Emailid
                     };
-                    return this.Ok(new { Status = true, Message = message , Data = data, tokenString, userId});
+                    return this.Ok(new { Status = true, Message = message , Data = data , tokenString});
                 }
                 else if (message.Equals("Invalid Password"))
                 {

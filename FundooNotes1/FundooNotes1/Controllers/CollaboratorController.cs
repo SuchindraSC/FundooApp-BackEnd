@@ -107,14 +107,15 @@ namespace FundooNotes1.Controllers
             try
             {
                 List<CollaboratorModel> data = this.manager.GetCollaboratorNotes(NotesId);
-                if (data != null)
-                {
-                    return this.Ok(new { Status = true, Message = $"Get Collaborator Notes Successfull", Data = data });
-                }
-                else
-                {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Get Notes Failed" });
-                }
+                return this.Ok(new { Status = true, Message = $"Get Collaborator Notes Successfull", Data = data });
+                //if (data != null)
+                //{
+                //    return this.Ok(new { Status = true, Message = $"Get Collaborator Notes Successfull", Data = data });
+                //}
+                //else
+                //{
+                //    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Get Notes Failed" });
+                //}
             }
             catch (Exception ex)
             {
